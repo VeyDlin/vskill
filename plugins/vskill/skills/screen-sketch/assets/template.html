@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sketch</title>
+
+    <!-- Inter Variable — canonical source, loads as one woff2 variable font -->
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+    <!-- Tailwind Play CDN — in-browser JIT, no build step -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["\"Inter var\"", "Inter", "system-ui", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Iconify Web Component — <iconify-icon> works in pure HTML and inherits currentColor -->
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+
+    <!-- Vue 3 global build — only for v-for de-duplication of repeated items. No reactive state. -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <style>
+        html {
+            font-family: "Inter var", "Inter", system-ui, sans-serif;
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+        }
+    </style>
+</head>
+<body class="bg-neutral-100 py-10">
+
+<div id="app">
+    <!-- Artboard — locked to one viewport. Swap for mobile: w-[375px] min-h-[812px] -->
+    <div class="w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm relative">
+
+        <!-- TODO: fill this artboard with HTML matching the brief.
+             Use the vocabulary from SKILL.md.
+             No ref(), no computed(), no forms, no fetch — only static layout + v-for. -->
+
+    </div>
+</div>
+
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                // Static arrays to v-for over. Keep them plain — no reactivity.
+                // Example:
+                // projects: [
+                //     { id: "alpha", title: "Item A", desc: "..." },
+                //     { id: "beta",  title: "Item B", desc: "..." },
+                // ],
+            };
+        },
+    }).mount("#app");
+</script>
+
+</body>
+</html>

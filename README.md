@@ -4,7 +4,7 @@
 
 Design-focused skills for [Claude Code](https://claude.com/claude-code). Skills that let Claude **make** a UI, **build it** out of a canonical Vue 3 + Nuxt UI stack, and **see** the result it produced — multimodal feedback (screenshots, DOM, console) via the `chrome-devtools` MCP.
 
-One plugin. 17 skills. All design.
+One plugin. 18 skills. All design.
 
 ## Quick Start
 
@@ -47,13 +47,14 @@ Each recipe is a standalone skill that produces a specific kind of file inside a
 | `add-page` | Route-level view wired through the router |
 | `debug-common-errors` | Diagnose and fix frequent Vue + Nuxt UI + Pinia + vue-query pitfalls |
 
-### Design (8 skills)
+### Design (9 skills)
 
 Higher-level skills that drive the recipes, review UI visually, or extract/audit UX.
 
 | Skill | What it does |
 |-------|-------------|
-| `design-prototype` | Autonomous orchestrator reached via `init-frontend-project`'s dispatcher when a feature brief is detected. Parses the brief → calls `init-frontend-project` in scaffold-only mode → chains recipes → launches dev server → screenshots via `chrome-devtools` → self-critiques against a polish checklist → iterates until presentable. Can also be invoked directly on an existing vskill project for the review-and-improve loop |
+| `screen-sketch` | Autonomous orchestrator reached via `init-frontend-project`'s dispatcher when a **sketch** brief is detected. Produces Figma-style static HTML artboards — one `.html` file per screen, all CDN-loaded (Tailwind Play + Vue global + Iconify web component + Inter Variable + picsum.photos), opened via `file://` with no build step. Drives `chrome-devtools` to screenshot each sketch and iterates on layout/hierarchy. No state, no router, no adaptivity — locked to one chosen viewport per sketch |
+| `design-prototype` | Autonomous orchestrator reached via `init-frontend-project`'s dispatcher when a **feature** brief is detected. Parses the brief → calls `init-frontend-project` in scaffold-only mode → chains recipes → launches dev server → screenshots via `chrome-devtools` → self-critiques against a polish checklist → iterates until presentable. Can also be invoked directly on an existing vskill project for the review-and-improve loop |
 | `design-review` | Visual design quality review with screenshots — layout, typography, spacing, colour, hierarchy, polish |
 | `design-system` | Extract a design system (colours, type, spacing) from a live site or screenshot into `docs/DESIGN.md` |
 | `ux-audit` | Exhaustive UX audit with 8-scenario battery and ranked findings |
@@ -70,12 +71,15 @@ Every skill announces the same rule: if the target project has `CLAUDE.md` at it
 
 ## Dispatch pattern
 
-`init-frontend-project` is the **single entry point** — users invoke it whether they want a bare scaffold or a full brief-driven prototype. The skill classifies intent:
+`init-frontend-project` is the **single entry point** — users invoke it whether they want a bare scaffold, a sketch, or a full brief-driven prototype. The skill classifies intent across three branches:
 
-- **Feature brief** ("build me a goose shop", "make a dashboard with X") → delegates to `design-prototype`, which then re-enters `init-frontend-project` in *scaffold-only mode* (dispatcher is skipped on re-entry), then runs the recipes and the screenshot-and-critique loop.
+- **Sketch brief** ("набросай экраны", "sketch me a layout", "like Figma in code") → delegates to `screen-sketch`, which produces standalone HTML artboards that open via `file://` with no build step, screenshots them through `chrome-devtools`, and iterates on layout.
+- **Feature brief** ("build me a goose shop", "make a dashboard with X") → delegates to `design-prototype`, which re-enters `init-frontend-project` in *scaffold-only mode* (dispatcher is skipped on re-entry), then runs the recipes and the screenshot-and-critique loop.
 - **Bare scaffold** ("init a Vue project", "just the skeleton") → runs the 15-step bootstrap in `init-frontend-project` directly.
 
-`design-prototype` is also callable directly on an *existing* vskill project to run the review-and-improve loop without re-scaffolding.
+Tie-breaker between sketch and feature: if the answer to *"does any button actually need to do something?"* is **no**, go to `screen-sketch`; otherwise `design-prototype`.
+
+Both `design-prototype` and `screen-sketch` are also callable directly inside an existing project to extend or review without re-scaffolding.
 
 ## How the visual-feedback loop works
 

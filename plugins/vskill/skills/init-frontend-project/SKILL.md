@@ -1,21 +1,32 @@
 ---
 name: init-frontend-project
-description: Entry point for starting new Vue 3 + Nuxt UI frontend work. Classifies the user's intent and dispatches — a feature brief ("build me a goose shop", "make a dashboard with X, Y, Z") is delegated to `design-prototype` for the full scaffold → recipes → review loop; a bare-scaffold request ("init Vue project", "just the skeleton") runs the 15-step bootstrap here (Vite + Vue 3 + TypeScript strict + Nuxt UI standalone + Pinia + vue-query + vee-validate/Zod + VueUse + radash + SCSS + Vitest + Playwright + ESLint + Prettier + Husky) and drops `CLAUDE.md` at the project root. Stack architecture itself lives in the separate `stack-reference` skill. Invoke on "new project", "start a frontend", "scaffold Vue app", "init frontend", "build me a frontend for X", "create a Vue app that does Y".
+description: Entry point for starting new Vue 3 + Nuxt UI frontend work. Classifies the user's intent into one of three branches and dispatches — (1) a sketch brief ("набросай экраны", "sketch me a layout", "like Figma in code") is delegated to `screen-sketch` for static HTML artboards with no build step; (2) a feature brief ("build me a goose shop", "make a dashboard with X, Y, Z") is delegated to `design-prototype` for the full scaffold → recipes → review loop; (3) a bare-scaffold request ("init Vue project", "just the skeleton") runs the 15-step bootstrap here (Vite + Vue 3 + TypeScript strict + Nuxt UI standalone + Pinia + vue-query + vee-validate/Zod + VueUse + radash + SCSS + Vitest + Playwright + ESLint + Prettier + Husky) and drops `CLAUDE.md` at the project root. Stack architecture itself lives in the separate `stack-reference` skill. Invoke on "new project", "start a frontend", "scaffold Vue app", "init frontend", "build me a frontend for X", "create a Vue app that does Y", "sketch me screens", "набросай макеты".
 ---
 
 # Initialise a Vue 3 + Nuxt UI Frontend Project
 
-This is the **entry point** for all new-frontend work. It first classifies the user's intent, then either hands off to `design-prototype` for a brief-driven build, or runs the bare-scaffold steps itself.
+This is the **entry point** for all new-frontend work. It first classifies the user's intent across three branches, then either hands off to `screen-sketch` (static HTML artboards), hands off to `design-prototype` (working Vue app from a brief), or runs the bare-scaffold steps itself.
 
 ## When to use
 
-On the very first turn of a new frontend project, or when the user asks to start/bootstrap anything Vue-based. Do **not** invoke inside an existing project — the scaffold path will clobber `package.json`.
+On the very first turn of a new frontend request, or when the user asks to start/bootstrap/sketch anything. Do **not** invoke the scaffold path inside an existing Vue project — it will clobber `package.json`. The sketch path is safe anywhere because it only writes into `sketches/`.
 
 ## Dispatch — classify the user's intent first
 
 Before running any setup, read the request and classify:
 
-**Feature brief** — the user describes a product/UI they want built (entities, screens, behaviour, visual direction). Examples:
+**Sketch brief** — the user wants **static visual drafts** of screens with no functionality (like Figma artboards, just rendered as HTML). The giveaway words: *набросай*, *sketch*, *mockup*, *wireframe*, *покажи как могло бы выглядеть*, *just the layout*, *like in Figma*, *artboard*, *quick mock-up*, *без логики*. Examples:
+
+- *"набросай 3 экрана для лавки гусей"*
+- *"sketch me what a settings screen could look like"*
+- *"quick mockup of a dashboard, no functionality"*
+- *"like in Figma, but in code — just the screens"*
+
+→ Announce: **"Sketch brief detected. Delegating to `screen-sketch` — pure HTML artboards, no build, no state."**
+→ Invoke the `screen-sketch` skill with the brief.
+→ **Do NOT proceed with Steps 1–15 below.** Screen sketches don't need a Vue project; `screen-sketch` produces standalone `.html` files that open by double-click.
+
+**Feature brief** — the user describes a product/UI they want **built and working** (entities, screens, interactive behaviour, real data flow). Examples:
 
 - *"build me a goose shop with cool effects"*
 - *"make a dashboard with user list + detail + settings"*
@@ -23,7 +34,7 @@ Before running any setup, read the request and classify:
 
 → Announce: **"Feature brief detected. Delegating to `design-prototype` for the full brief → scaffold → recipes → review loop."**
 → Invoke the `design-prototype` skill with the brief.
-→ **Do NOT proceed with Steps 1–14 below.** `design-prototype` will call back into this skill for the scaffold part (see re-entry exception).
+→ **Do NOT proceed with Steps 1–15 below.** `design-prototype` will call back into this skill for the scaffold part (see re-entry exception).
 
 **Bare scaffold** — the user wants a configured but empty project they will fill in manually. Examples:
 
@@ -31,9 +42,11 @@ Before running any setup, read the request and classify:
 - *"scaffold a new frontend"*
 - *"just give me the skeleton, I'll build from there"*
 
-→ Proceed with Steps 1–14 below.
+→ Proceed with Steps 1–15 below.
 
-**Ambiguous** — single-question check: *"Do you have a feature brief (a UI to build) or do you just need the empty skeleton to start from?"* Then branch.
+**Ambiguous** — single-question check, pick the most likely branch from the wording and ask: *"Sketch-only visual drafts, working prototype, or empty scaffold?"* Then branch.
+
+Tie-breaker between sketch and feature briefs: if the answer to *"does any button actually need to do something?"* is **no**, route to `screen-sketch`; otherwise `design-prototype`.
 
 ### Re-entry exception
 

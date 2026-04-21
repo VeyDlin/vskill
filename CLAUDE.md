@@ -17,10 +17,10 @@ Design-focused skills for Claude Code CLI. Every skill produces visible output (
 ```
 claude-skills/
 ├── plugins/
-│   └── vskill/                             # 1 plugin, 17 skills — Vue 3 + Nuxt UI design stack
+│   └── vskill/                             # 1 plugin, 18 skills — Vue 3 + Nuxt UI design stack
 │       ├── .claude-plugin/plugin.json
 │       └── skills/
-│           ├── init-frontend-project/      # Entry point: dispatches feature briefs → design-prototype; otherwise scaffolds Vue 3 + Nuxt UI project; ships CLAUDE.md as an asset
+│           ├── init-frontend-project/      # Entry point: dispatches sketch briefs → screen-sketch, feature briefs → design-prototype; otherwise scaffolds Vue 3 + Nuxt UI project; ships CLAUDE.md as an asset
 │           ├── stack-reference/            # Canonical stack definition — packages, folder layout, patterns, VS Code workspace
 │           ├── add-api-endpoint/           # Recipes — each produces a specific file type inside a scaffolded project
 │           ├── add-store/
@@ -29,6 +29,7 @@ claude-skills/
 │           ├── add-form/
 │           ├── add-page/
 │           ├── debug-common-errors/
+│           ├── screen-sketch/              # Static HTML artboards via CDN-only stack — Figma-style sketches with screenshot loop, no build
 │           ├── design-prototype/           # Autonomous brief→scaffold→build→screenshot→self-critique→iterate loop
 │           ├── design-review/              # Visual design quality review
 │           ├── design-system/              # Extract a design system into docs/DESIGN.md
@@ -48,20 +49,21 @@ claude-skills/
 
 ### Skill layers
 
-- **Entry point / Scaffold** (`init-frontend-project`) — the **single entry point** for starting new frontend work. Classifies user intent: a feature brief delegates to `design-prototype`; a bare scaffold request runs the 15-step bootstrap here. Drops `CLAUDE.md` at the project root — that file is the project's behavioural contract and outranks every skill in this plugin.
+- **Entry point / Scaffold** (`init-frontend-project`) — the **single entry point** for starting new frontend work. Classifies user intent across three branches: sketch brief → `screen-sketch`; feature brief → `design-prototype`; bare scaffold → runs the 15-step bootstrap here. Drops `CLAUDE.md` at the project root — that file is the project's behavioural contract and outranks every skill in this plugin.
 - **Reference** (`stack-reference`) — canonical Vue 3 + Nuxt UI stack definition (packages, folder layout, API/store/composable patterns, naming, tooling, VS Code workspace). Not shipped as a file in the project root; consulted on demand so stack updates roll out through the plugin without touching cloned projects.
 - **Recipes** (`add-api-endpoint`, `add-store`, `add-composable`, `add-component`, `add-form`, `add-page`, `debug-common-errors`) — each produces a specific file type. They cross-reference each other but never batch multiple produce-types into one step.
-- **Design** (`design-prototype`, `design-review`, `design-system`, `ux-audit`, `ux-extract`, `ux-compare`, `responsiveness-check`, `onboarding-ux`) — higher-level skills. `design-prototype` is the orchestrator reached via `init-frontend-project`'s dispatcher for feature briefs; it re-enters `init-frontend-project` in scaffold-only mode, then chains recipes, then drives the visual-review loop. The remaining design skills are directly invokable for review/audit/extraction work on an existing app.
+- **Design** (`screen-sketch`, `design-prototype`, `design-review`, `design-system`, `ux-audit`, `ux-extract`, `ux-compare`, `responsiveness-check`, `onboarding-ux`) — higher-level skills. `screen-sketch` and `design-prototype` are the two orchestrators reached via the dispatcher: `screen-sketch` produces static HTML artboards (no build, CDN-only stack), `design-prototype` builds a real Vue app and chains the recipes. The remaining design skills are directly invokable for review/audit/extraction work on an existing app.
 
 ### Dispatch pattern
 
 `init-frontend-project` is the entry point for every "start a frontend" request. It classifies intent:
 
+- **Sketch brief** → delegates to `screen-sketch`, which produces standalone `.html` artboards with no build step and drives the screenshot loop via `chrome-devtools`.
 - **Feature brief** → delegates to `design-prototype`, which re-enters `init-frontend-project` in *scaffold-only mode* (dispatcher is skipped on re-entry), then runs the recipes and the screenshot-and-critique loop.
 - **Bare scaffold** → runs the 15-step bootstrap directly.
-- **Ambiguous** → single clarifying question, then proceeds.
+- **Ambiguous** → single clarifying question, then proceeds. Tie-breaker sketch-vs-feature: if no button needs to actually do something, route to `screen-sketch`.
 
-`design-prototype` is also callable directly on an *existing* vskill project to run the review-and-improve loop without re-scaffolding.
+`design-prototype` and `screen-sketch` are both also callable directly inside an *existing* project to extend or review without re-scaffolding.
 
 ### Priority contract
 
