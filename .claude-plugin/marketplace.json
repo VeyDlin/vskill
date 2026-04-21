@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "vskill",
+  "description": "Design-focused Claude Code skills — generate UI, review it multimodally, and extract design systems.",
+  "owner": {
+    "name": "Kyle Nekto",
+    "email": "nekto@veydlin.com"
+  },
+  "plugins": [
+    {
+      "name": "vskill",
+      "description": "Design-focused Claude Code skills — Vue 3 + Nuxt UI project scaffold, recipe-based UI building, autonomous design loop with multimodal visual feedback, design-system extraction, and UX audits.",
+      "source": "./plugins/vskill",
+      "category": "design"
+    }
+  ]
+}

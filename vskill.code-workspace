@@ -1,0 +1,49 @@
+{
+    "folders": [
+        {
+            "name": "vskill",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.DS_Store": true
+        },
+        "files.associations": {
+            "SKILL.md": "markdown",
+            "ERRATA.md": "markdown",
+            "CLAUDE.md": "markdown"
+        },
+        "workbench.editorAssociations": {
+            "*.md": "vscode.markdown.preview.editor"
+        },
+        "[markdown]": {
+            "editor.wordWrap": "on",
+            "editor.quickSuggestions": {
+                "comments": "off",
+                "strings": "off",
+                "other": "off"
+            }
+        },
+        "[json]": {
+            "editor.tabSize": 2
+        },
+        "[jsonc]": {
+            "editor.tabSize": 2
+        },
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.renderWhitespace": "boundary",
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.eol": "\n"
+    },
+    "extensions": {
+        "recommendations": [
+            "yzhang.markdown-all-in-one",
+            "davidanson.vscode-markdownlint",
+            "streetsidesoftware.code-spell-checker"
+        ]
+    }
+}

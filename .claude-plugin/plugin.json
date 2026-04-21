@@ -1,0 +1,8 @@
+{
+  "name": "vskill",
+  "description": "Design-focused Claude Code skills — produce visual output and review it multimodally.",
+  "author": {
+    "name": "Kyle Nekto",
+    "email": "nekto@veydlin.com"
+  }
+}

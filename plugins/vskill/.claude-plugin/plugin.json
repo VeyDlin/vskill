@@ -1,0 +1,8 @@
+{
+  "name": "vskill",
+  "description": "Design-focused Claude Code skills — Vue 3 + Nuxt UI project scaffold, recipe-based UI building, autonomous design loop with multimodal visual feedback, design-system extraction, and UX audits.",
+  "author": {
+    "name": "Kyle Nekto",
+    "email": "nekto@veydlin.com"
+  }
+}
