@@ -1,11 +1,16 @@
 ---
 name: design-prototype
-description: Use when the user gives a short design/product brief and expects a runnable Vue 3 + Nuxt UI prototype without hand-holding. Autonomously scaffolds the project (via `init-frontend-project`), chains the recipe skills (`add-api-endpoint`, `add-store`, `add-form`, `add-component`, `add-page`) to build features, launches the dev server, drives `chrome-devtools` MCP to screenshot the running app, self-critiques the screenshots against a polish checklist, and iterates until the result is presentable — all without per-step confirmation. Triggers: "build me a prototype of X", "make a Vue app that does Y", "autonomous design", "prototype this idea".
+description: Orchestrator for brief-driven Vue 3 + Nuxt UI projects. Typically reached via `init-frontend-project`'s dispatcher when a feature brief is detected (not invoked directly by users for a new project — use `init-frontend-project` as the entry point). Can also be invoked directly on an *existing* project to run the visual-review / improvement loop without re-scaffolding. Autonomously calls `init-frontend-project` in scaffold-only mode, chains the recipe skills (`add-api-endpoint`, `add-store`, `add-form`, `add-component`, `add-page`) to build features, launches the dev server, drives `chrome-devtools` MCP to screenshot the running app, self-critiques against a polish checklist, and iterates until presentable — all without per-step confirmation.
 ---
 
 # Autonomous Design Prototype
 
 Build a runnable Vue 3 + Nuxt UI prototype from a short brief, then review it visually and iterate — without the user managing each step.
+
+## Entry points
+
+- **Via `init-frontend-project`'s dispatcher** (the primary path). When a user invokes `init-frontend-project` with a feature brief, the dispatcher delegates here. The user does not pick this skill directly.
+- **Directly on an existing project** (secondary path). If a user already has a vskill-scaffolded project and wants the visual-review / iteration loop applied to it, invoke this skill directly — in that case skip step 2 (scaffold) because the project already exists.
 
 ## Priority rule
 
@@ -43,7 +48,7 @@ Do not propose A/B options here. Pick one plan; the user either says "go" or red
 
 ### 2. Scaffold (once)
 
-Invoke the `init-frontend-project` skill at the target path. That skill installs the stack, lays down the `src/` tree, and places `CLAUDE.md` at the project root (the stack architecture itself lives in the separate `stack-reference` skill, not as a file in the project). Skip this step if the project already exists and already has `CLAUDE.md`.
+Invoke the `init-frontend-project` skill **in scaffold-only mode** — announce "invoking init-frontend-project in scaffold-only mode" when calling it, so that skill skips its own dispatcher and runs the scaffold steps directly. It installs the stack, lays down the `src/` tree, and places `CLAUDE.md` at the project root (the stack architecture itself lives in the separate `stack-reference` skill, not as a file in the project). Skip this step entirely if the project already exists and already has `CLAUDE.md`.
 
 ### 3. Resolve the data strategy
 

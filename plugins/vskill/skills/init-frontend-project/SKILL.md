@@ -1,13 +1,43 @@
 ---
 name: init-frontend-project
-description: Use when starting a new Vue 3 + Nuxt UI frontend project from scratch. Scaffolds a Vite + Vue 3 + TypeScript project with the full vskill stack (Nuxt UI standalone, Pinia, vue-query, vee-validate + Zod, VueUse, radash, SCSS, Vitest, Playwright, ESLint, Prettier, Husky), drops the behavioural contract (`CLAUDE.md`) at the project root, and creates the `src/` directory structure. Stack architecture itself lives in the separate `stack-reference` skill. Invoke on "new project", "start a frontend", "scaffold Vue app", "init frontend".
+description: Entry point for starting new Vue 3 + Nuxt UI frontend work. Classifies the user's intent and dispatches — a feature brief ("build me a goose shop", "make a dashboard with X, Y, Z") is delegated to `design-prototype` for the full scaffold → recipes → review loop; a bare-scaffold request ("init Vue project", "just the skeleton") runs the 14-step bootstrap here (Vite + Vue 3 + TypeScript strict + Nuxt UI standalone + Pinia + vue-query + vee-validate/Zod + VueUse + radash + SCSS + Vitest + Playwright + ESLint + Prettier + Husky) and drops `CLAUDE.md` at the project root. Stack architecture itself lives in the separate `stack-reference` skill. Invoke on "new project", "start a frontend", "scaffold Vue app", "init frontend", "build me a frontend for X", "create a Vue app that does Y".
 ---
 
 # Initialise a Vue 3 + Nuxt UI Frontend Project
 
+This is the **entry point** for all new-frontend work. It first classifies the user's intent, then either hands off to `design-prototype` for a brief-driven build, or runs the bare-scaffold steps itself.
+
 ## When to use
 
-On the very first turn of a new frontend project, or when the user asks to bootstrap a fresh Vue 3 app. Do **not** invoke this skill inside an existing project — it will clobber `package.json`.
+On the very first turn of a new frontend project, or when the user asks to start/bootstrap anything Vue-based. Do **not** invoke inside an existing project — the scaffold path will clobber `package.json`.
+
+## Dispatch — classify the user's intent first
+
+Before running any setup, read the request and classify:
+
+**Feature brief** — the user describes a product/UI they want built (entities, screens, behaviour, visual direction). Examples:
+
+- *"build me a goose shop with cool effects"*
+- *"make a dashboard with user list + detail + settings"*
+- *"prototype a kanban board"*
+
+→ Announce: **"Feature brief detected. Delegating to `design-prototype` for the full brief → scaffold → recipes → review loop."**
+→ Invoke the `design-prototype` skill with the brief.
+→ **Do NOT proceed with Steps 1–14 below.** `design-prototype` will call back into this skill for the scaffold part (see re-entry exception).
+
+**Bare scaffold** — the user wants a configured but empty project they will fill in manually. Examples:
+
+- *"init a Vue project"*
+- *"scaffold a new frontend"*
+- *"just give me the skeleton, I'll build from there"*
+
+→ Proceed with Steps 1–14 below.
+
+**Ambiguous** — single-question check: *"Do you have a feature brief (a UI to build) or do you just need the empty skeleton to start from?"* Then branch.
+
+### Re-entry exception
+
+When this skill is invoked **by `design-prototype`** (coming back for the scaffold part), skip the dispatch classification entirely and go straight to Step 1. Recognise re-entry by the caller context: `design-prototype` explicitly announces *"invoking init-frontend-project in scaffold-only mode"* when it calls this skill.
 
 ## Priority rule
 
@@ -36,7 +66,9 @@ A runnable project at the user's chosen directory with:
 
 Ask the user for the project **name** and **target path** before starting. If either is unclear, stop and ask.
 
-## Steps
+## Scaffold Steps
+
+Run these only under the **Bare scaffold** path or when re-entered from `design-prototype` in scaffold-only mode. Under the Feature brief path, `design-prototype` orchestrates and will invoke these steps for you at the right moment.
 
 Follow every step. Do not skip, do not reorder, do not combine. Every step either runs a command or creates a file — never both in the same step.
 

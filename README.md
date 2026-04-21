@@ -19,11 +19,11 @@ The `chrome-devtools` MCP and `nuxt-ui-remote` MCP should be connected separatel
 
 Four layers of skills that compose into a full design-and-build workflow.
 
-### Scaffold (1 skill)
+### Entry point / Scaffold (1 skill)
 
 | Skill | What it does |
 |-------|-------------|
-| `init-frontend-project` | Teaches Claude how to scaffold a Vue 3 + Vite + Nuxt UI + Pinia + vue-query + Zod project from scratch, wire TS/ESLint/Prettier/Husky, and drop `CLAUDE.md` at the project root as the canonical behavioural contract |
+| `init-frontend-project` | **Single entry point** for starting new frontend work. Classifies intent: a *feature brief* ("build me a goose shop") is delegated to `design-prototype` for the full brief → scaffold → recipes → review loop; a *bare scaffold* request ("init a Vue project") runs the 14-step bootstrap here — Vite + Vue 3 + TS strict + Nuxt UI + Pinia + vue-query + Zod + ESLint + Prettier + Husky — and drops `CLAUDE.md` at the project root |
 
 ### Reference (1 skill)
 
@@ -53,7 +53,7 @@ Higher-level skills that drive the recipes, review UI visually, or extract/audit
 
 | Skill | What it does |
 |-------|-------------|
-| `design-prototype` | Autonomous loop: parse brief → scaffold → build via recipes → launch dev server → screenshot → self-critique against a polish checklist → iterate until presentable |
+| `design-prototype` | Autonomous orchestrator reached via `init-frontend-project`'s dispatcher when a feature brief is detected. Parses the brief → calls `init-frontend-project` in scaffold-only mode → chains recipes → launches dev server → screenshots via `chrome-devtools` → self-critiques against a polish checklist → iterates until presentable. Can also be invoked directly on an existing vskill project for the review-and-improve loop |
 | `design-review` | Visual design quality review with screenshots — layout, typography, spacing, colour, hierarchy, polish |
 | `design-system` | Extract a design system (colours, type, spacing) from a live site or screenshot into `docs/DESIGN.md` |
 | `ux-audit` | Exhaustive UX audit with 8-scenario battery and ranked findings |
@@ -67,6 +67,15 @@ Higher-level skills that drive the recipes, review UI visually, or extract/audit
 Every skill announces the same rule: if the target project has `CLAUDE.md` at its root, **that file outranks the skill**. The skills are defaults — the project's own instructions override them.
 
 `init-frontend-project` is what places `CLAUDE.md` in a new project. The stack architecture itself lives in the `stack-reference` skill — not as a file in the project — so stack updates roll out through the plugin without needing to touch each cloned project.
+
+## Dispatch pattern
+
+`init-frontend-project` is the **single entry point** — users invoke it whether they want a bare scaffold or a full brief-driven prototype. The skill classifies intent:
+
+- **Feature brief** ("build me a goose shop", "make a dashboard with X") → delegates to `design-prototype`, which then re-enters `init-frontend-project` in *scaffold-only mode* (dispatcher is skipped on re-entry), then runs the recipes and the screenshot-and-critique loop.
+- **Bare scaffold** ("init a Vue project", "just the skeleton") → runs the 14-step bootstrap in `init-frontend-project` directly.
+
+`design-prototype` is also callable directly on an *existing* vskill project to run the review-and-improve loop without re-scaffolding.
 
 ## How the visual-feedback loop works
 
