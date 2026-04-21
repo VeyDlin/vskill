@@ -1,6 +1,6 @@
 ---
 name: init-frontend-project
-description: Entry point for starting new Vue 3 + Nuxt UI frontend work. Classifies the user's intent and dispatches — a feature brief ("build me a goose shop", "make a dashboard with X, Y, Z") is delegated to `design-prototype` for the full scaffold → recipes → review loop; a bare-scaffold request ("init Vue project", "just the skeleton") runs the 14-step bootstrap here (Vite + Vue 3 + TypeScript strict + Nuxt UI standalone + Pinia + vue-query + vee-validate/Zod + VueUse + radash + SCSS + Vitest + Playwright + ESLint + Prettier + Husky) and drops `CLAUDE.md` at the project root. Stack architecture itself lives in the separate `stack-reference` skill. Invoke on "new project", "start a frontend", "scaffold Vue app", "init frontend", "build me a frontend for X", "create a Vue app that does Y".
+description: Entry point for starting new Vue 3 + Nuxt UI frontend work. Classifies the user's intent and dispatches — a feature brief ("build me a goose shop", "make a dashboard with X, Y, Z") is delegated to `design-prototype` for the full scaffold → recipes → review loop; a bare-scaffold request ("init Vue project", "just the skeleton") runs the 15-step bootstrap here (Vite + Vue 3 + TypeScript strict + Nuxt UI standalone + Pinia + vue-query + vee-validate/Zod + VueUse + radash + SCSS + Vitest + Playwright + ESLint + Prettier + Husky) and drops `CLAUDE.md` at the project root. Stack architecture itself lives in the separate `stack-reference` skill. Invoke on "new project", "start a frontend", "scaffold Vue app", "init frontend", "build me a frontend for X", "create a Vue app that does Y".
 ---
 
 # Initialise a Vue 3 + Nuxt UI Frontend Project
@@ -336,7 +336,19 @@ Create `App.code-workspace` in the project root, copying the JSON block from the
 
 Tell the user to open the project via **File → Open Workspace from File → App.code-workspace** — not the folder.
 
-### 13. Smoke test
+### 13. Extend `.gitignore` with vskill convention directories
+
+Vite's generated `.gitignore` covers `node_modules`, `dist`, and friends but not the vskill-specific `.review/` directory (where `design-prototype` and visual-review skills drop screenshots). Append these lines to `.gitignore`:
+
+```gitignore
+
+# vskill conventions
+.review/
+```
+
+Do **not** add `.husky/` here — husky hook scripts are intentionally committed (they only work if present after `git clone`). `.husky/` is hidden from the VS Code explorer via `files.exclude` in `App.code-workspace` instead.
+
+### 14. Smoke test
 
 ```bash
 npm run dev
@@ -353,7 +365,7 @@ npm run lint
 
 Both must pass with zero errors before handing off.
 
-### 14. Initial commit
+### 15. Initial commit
 
 ```bash
 git init

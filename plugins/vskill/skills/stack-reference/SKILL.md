@@ -140,6 +140,8 @@ project/
 │   ├── unit/
 │   ├── components/
 │   └── e2e/
+├── .review/                      # Screenshots / DOM dumps from design-prototype & review skills (gitignored, hidden in VS Code)
+├── .husky/                       # Git hook scripts (committed; hidden in VS Code)
 ├── index.html
 ├── vite.config.ts
 ├── eslint.config.ts
@@ -618,6 +620,8 @@ Companion files that must sit next to the workspace:
         "files.exclude": {
             ".vscode": true,
             "**/.git": true,
+            "**/.husky": true,
+            "**/.review": true,
             "**/node_modules": true,
             "**/dist": true,
             "**/dist-ssr": true,
@@ -629,6 +633,8 @@ Companion files that must sit next to the workspace:
             "**/package-lock.json": true
         },
         "search.exclude": {
+            "**/.husky": true,
+            "**/.review": true,
             "**/node_modules": true,
             "**/dist": true,
             "**/dist-ssr": true,

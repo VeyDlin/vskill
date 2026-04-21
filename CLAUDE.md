@@ -48,7 +48,7 @@ claude-skills/
 
 ### Skill layers
 
-- **Entry point / Scaffold** (`init-frontend-project`) — the **single entry point** for starting new frontend work. Classifies user intent: a feature brief delegates to `design-prototype`; a bare scaffold request runs the 14-step bootstrap here. Drops `CLAUDE.md` at the project root — that file is the project's behavioural contract and outranks every skill in this plugin.
+- **Entry point / Scaffold** (`init-frontend-project`) — the **single entry point** for starting new frontend work. Classifies user intent: a feature brief delegates to `design-prototype`; a bare scaffold request runs the 15-step bootstrap here. Drops `CLAUDE.md` at the project root — that file is the project's behavioural contract and outranks every skill in this plugin.
 - **Reference** (`stack-reference`) — canonical Vue 3 + Nuxt UI stack definition (packages, folder layout, API/store/composable patterns, naming, tooling, VS Code workspace). Not shipped as a file in the project root; consulted on demand so stack updates roll out through the plugin without touching cloned projects.
 - **Recipes** (`add-api-endpoint`, `add-store`, `add-composable`, `add-component`, `add-form`, `add-page`, `debug-common-errors`) — each produces a specific file type. They cross-reference each other but never batch multiple produce-types into one step.
 - **Design** (`design-prototype`, `design-review`, `design-system`, `ux-audit`, `ux-extract`, `ux-compare`, `responsiveness-check`, `onboarding-ux`) — higher-level skills. `design-prototype` is the orchestrator reached via `init-frontend-project`'s dispatcher for feature briefs; it re-enters `init-frontend-project` in scaffold-only mode, then chains recipes, then drives the visual-review loop. The remaining design skills are directly invokable for review/audit/extraction work on an existing app.
@@ -58,7 +58,7 @@ claude-skills/
 `init-frontend-project` is the entry point for every "start a frontend" request. It classifies intent:
 
 - **Feature brief** → delegates to `design-prototype`, which re-enters `init-frontend-project` in *scaffold-only mode* (dispatcher is skipped on re-entry), then runs the recipes and the screenshot-and-critique loop.
-- **Bare scaffold** → runs the 14-step bootstrap directly.
+- **Bare scaffold** → runs the 15-step bootstrap directly.
 - **Ambiguous** → single clarifying question, then proceeds.
 
 `design-prototype` is also callable directly on an *existing* vskill project to run the review-and-improve loop without re-scaffolding.

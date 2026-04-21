@@ -82,11 +82,13 @@ Run in the background. Capture the URL Vite prints (usually `http://localhost:51
 
 ### 6. Visual review loop
 
+All screenshots, DOM snapshots, and intermediate review notes written during this loop go into a `.review/` directory at the project root. That directory is already gitignored by the scaffold and hidden from the VS Code explorer — never commit its contents, never place review artefacts anywhere else. Create `.review/` on first use if it doesn't exist, then namespace files by route and iteration (e.g. `.review/home-desktop-pass1.png`, `.review/home-mobile-pass1.png`).
+
 For each route in the plan, repeat until either the route passes the polish checklist or you've iterated three times without measurable improvement:
 
 1. `mcp__chrome-devtools__new_page` (first time) / `navigate_page` → open the route.
-2. `mcp__chrome-devtools__take_screenshot` at desktop width.
-3. `mcp__chrome-devtools__resize_page` to 375×812, screenshot again (mobile).
+2. `mcp__chrome-devtools__take_screenshot` at desktop width → save under `.review/`.
+3. `mcp__chrome-devtools__resize_page` to 375×812, screenshot again (mobile) → save under `.review/`.
 4. `mcp__chrome-devtools__list_console_messages` → note any errors; they are automatic defects.
 5. Score the screenshots against the polish checklist below.
 6. If defects exist, open the source files and fix them directly (no extra skill needed for tweaks that fit in a single file). For structural changes — new component, new composable, new page — re-enter the appropriate recipe skill.
@@ -115,7 +117,7 @@ When every route passes the checklist:
 ```
 Project:   [path]
 Routes:    [list, each with the URL]
-Screens:   [attach the final screenshot paths from chrome-devtools]
+Screens:   [list final screenshot paths under `.review/` — the dir is gitignored, so call them out explicitly so the user knows where to look]
 Stack:     Vue 3 + Vite + Nuxt UI standalone + Pinia + vue-query (+ MSW if used)
 Next:      [one line — what the user would plausibly do next, e.g. "swap the mock for a real API", "tighten empty-state copy"]
 ```

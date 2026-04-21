@@ -23,7 +23,7 @@ Four layers of skills that compose into a full design-and-build workflow.
 
 | Skill | What it does |
 |-------|-------------|
-| `init-frontend-project` | **Single entry point** for starting new frontend work. Classifies intent: a *feature brief* ("build me a goose shop") is delegated to `design-prototype` for the full brief → scaffold → recipes → review loop; a *bare scaffold* request ("init a Vue project") runs the 14-step bootstrap here — Vite + Vue 3 + TS strict + Nuxt UI + Pinia + vue-query + Zod + ESLint + Prettier + Husky — and drops `CLAUDE.md` at the project root |
+| `init-frontend-project` | **Single entry point** for starting new frontend work. Classifies intent: a *feature brief* ("build me a goose shop") is delegated to `design-prototype` for the full brief → scaffold → recipes → review loop; a *bare scaffold* request ("init a Vue project") runs the 15-step bootstrap here — Vite + Vue 3 + TS strict + Nuxt UI + Pinia + vue-query + Zod + ESLint + Prettier + Husky — and drops `CLAUDE.md` at the project root |
 
 ### Reference (1 skill)
 
@@ -73,7 +73,7 @@ Every skill announces the same rule: if the target project has `CLAUDE.md` at it
 `init-frontend-project` is the **single entry point** — users invoke it whether they want a bare scaffold or a full brief-driven prototype. The skill classifies intent:
 
 - **Feature brief** ("build me a goose shop", "make a dashboard with X") → delegates to `design-prototype`, which then re-enters `init-frontend-project` in *scaffold-only mode* (dispatcher is skipped on re-entry), then runs the recipes and the screenshot-and-critique loop.
-- **Bare scaffold** ("init a Vue project", "just the skeleton") → runs the 14-step bootstrap in `init-frontend-project` directly.
+- **Bare scaffold** ("init a Vue project", "just the skeleton") → runs the 15-step bootstrap in `init-frontend-project` directly.
 
 `design-prototype` is also callable directly on an *existing* vskill project to run the review-and-improve loop without re-scaffolding.
 
