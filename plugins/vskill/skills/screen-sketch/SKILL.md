@@ -71,13 +71,18 @@ After the initial brief-to-screen-list confirmation, run autonomously. Do not as
 
 ## Steps
 
-### 1. Parse the brief into a screen list
+### 1. Parse the brief into a screen list + Design DNA
 
 Read the brief once. Produce **one** block in this shape, then wait for a **single** go/no-go:
 
 ```
 Brief:      [one-line paraphrase]
 Viewport:   [desktop 1440×900 | mobile 375×812 — pick one, ask if unclear]
+Style DNA:  mood     — [clean | editorial | playful | brutalist | content-first — pick one]
+            accent   — [blue-600 | emerald-600 | red-500 | violet-600 | amber-500 — one Tailwind hue]
+            density  — [comfortable (py-4, gap-6, card p-6) | compact (py-2, gap-3, card p-4)]
+            scale    — [standard 12/14/16/20/24/32 | editorial 14/16/18/24/30/40]
+            icons    — [material-symbols outline | material-symbols filled — pick ONE fill style]
 Screens:    [home.html — landing/hero, ...]
             [dashboard.html — list of items, ...]
             [settings.html — account options, ...]
@@ -85,6 +90,8 @@ Vocabulary: [any non-standard elements — charts, maps, video — flag them so 
 ```
 
 Do not propose A/B options. Pick one plan; user says "go" or redirects.
+
+**Every sketch in the batch stays consistent with this DNA.** Same accent, same density, same type scale, same icon family and fill style. If screen 1 is editorial+amber+compact, screen 2 can't slide into clean+blue+comfortable — that's DNA drift and will be caught in review. LLMs love to unconsciously reset style between files; resist it by referring back to the DNA block before each new sketch.
 
 ### 2. Copy the template per screen
 
@@ -169,6 +176,11 @@ Memorise these. Write directly; don't build a component layer.
 | Muted / caption | `<p class="text-sm text-neutral-500">...</p>` |
 | Micro-label | `<span class="text-xs uppercase tracking-wider text-neutral-500">Label</span>` |
 | Breadcrumb | `<div class="text-sm text-neutral-500">Workspace / Section</div>` |
+| Data number (tabular) | `<span class="tabular-nums font-medium text-neutral-900">$1,240.00</span>` |
+
+**Weight hierarchy.** Headings `font-semibold` (600) or `font-bold` (700); labels/buttons `font-medium` (500); body `font-normal` (400). Don't push everything to semibold — it flattens the page.
+
+**Line length.** Body paragraphs should sit in the `max-w-prose` (~65ch) band on desktop. Edge-to-edge long text reads as a wall.
 
 ### Interactive-looking elements (purely visual — no handlers)
 
@@ -190,6 +202,34 @@ Memorise these. Write directly; don't build a component layer.
 | Card | `<div class="p-5 rounded-lg border border-neutral-200">...</div>` |
 | Card with image | `<article class="rounded-lg border border-neutral-200 overflow-hidden">` |
 | Divider | `<hr class="border-neutral-200">` |
+
+### Spacing tokens (4/8-rhythm)
+
+Everything sits on a 4px/8px grid. Pick gaps from this ladder, never from arbitrary values like `py-[13px]` or `gap-3.5`.
+
+| Token | Tailwind | Use for |
+|-------|----------|---------|
+| Inline gap | `gap-2` (8px) | Icon ↔ label, tag rows, inline controls |
+| Row gap | `gap-3` / `gap-4` (12 / 16px) | List row items, form row elements |
+| Card inner padding | `p-5` / `p-6` (20 / 24px) | Default card body |
+| Between cards in grid | `gap-6` (24px) | Card grids, dashboard tiles |
+| Between sections | `space-y-12` (48px) | Major content sections on a page |
+| Page gutter (desktop) | `px-8` (32px) | Main container horizontal inset |
+| Page gutter (mobile) | `px-4` (16px) | Main container on 375px |
+
+**Section spacing tiers**: 16 / 24 / 32 / 48px — within-card, between-cards, between-subsections, between-sections. Nothing in between.
+
+### Icon sizing tokens
+
+| Token | Size | Tailwind text-* equivalent | Use for |
+|-------|------|----------------------------|---------|
+| sm | 16px | `text-base` | Inline-with-text-sm, dense rows |
+| md | 20px | `text-xl` | Default icon in buttons, inline with body |
+| lg | 24px | `text-2xl` | Nav icons, card headers, primary actions |
+
+Pick one token family per sketch. Never mix 18 / 22 / 26 arbitrarily.
+
+**One icon family, one fill style.** Stay in `material-symbols:` and commit to either all-outline (`:search`, `:settings`, `:home`) or all-filled (`:search`, `:settings`, `:home` + variant `-rounded` or `-fill`). Mixing filled + outline at the same hierarchy level looks amateur. The DNA block in step 1 fixes this for the whole batch.
 
 ### Media
 
@@ -226,15 +266,39 @@ Stick to Tailwind's `neutral-*` scale for surface/text, plus **one** accent colo
 
 ## Polish checklist (each sketch must pass all)
 
+Grouped into four buckets — a failure in an earlier bucket blocks work on later ones.
+
+### 1. Must not break
+
 - **No console errors.** A `404` on a CDN or `iconify-icon not registered` means a resource failed — fix before anything else.
-- **Content fits the declared viewport.** Body fills the iframe edge-to-edge (1440×900 or 375×812 — same values you put in `screens.js`). No horizontal scroll inside the page. Do not wrap content in a `w-[1440px] ... shadow-sm` artboard div — that's the canvas viewer's job, not the sketch's.
-- **Hierarchy is visible.** h1 > h2 > body is distinguishable by size and/or weight. If every line looks the same, fix it.
-- **Spacing scale is consistent.** Gaps are from `0.25 / 0.5 / 0.75 / 1 / 1.5 / 2 rem` — not random values like `gap-3.5`.
 - **All images render.** No broken-image icons. `picsum.photos` URLs must load — check console for 4xx.
 - **All icons render.** No empty squares where `<iconify-icon>` should be. A missing icon name fails silently and leaves a blank spot.
-- **Inter is applied.** If the text falls back to system sans-serif (bold `g` has a single-storey loop, numbers look cramped), `rsms.me` failed to load.
-- **Only one accent colour.** Count non-neutral hues. More than one means the sketch is pretending to be a final design.
+- **Inter is applied.** If text falls back to system sans-serif (bold `g` has a single-storey loop, numbers look cramped), `rsms.me` failed to load.
+
+### 2. Structure & viewport
+
+- **Content fits the declared viewport.** Body fills the iframe edge-to-edge (1440×900 or 375×812 — same values you put in `screens.js`). No horizontal scroll inside the page. Do not wrap content in a `w-[1440px] ... shadow-sm` artboard div — that's the canvas viewer's job.
 - **No adaptivity tricks.** No `sm:`, `md:`, `lg:` prefixes. Sketch is locked to the declared viewport.
+- **Content priority visible.** Most important info sits top-left / above the fold on desktop; top on mobile. A scannable glance should land on the primary thing first.
+
+### 3. Hierarchy & rhythm
+
+- **Size hierarchy visible.** h1 > h2 > h3 > body is distinguishable by size. If every line looks the same size, fix it.
+- **Weight hierarchy visible.** Headings 600-700, labels/buttons 500, body 400. Don't set everything to semibold — it reads as "nothing is important" because everything is.
+- **Spacing is 4/8-rhythm.** Gaps come from the Spacing tokens table above. No `gap-3.5`, no `py-[13px]`, no `mt-[22px]`. Arbitrary values are a smell.
+- **Section spacing follows tiers.** Within-card 16px, between-cards 24px, between-subsections 32px, between-sections 48px. Nothing in between.
+- **Line length controlled.** Body paragraphs ≤ ~65ch (use `max-w-prose`). Full-bleed long text reads as a wall and kills hierarchy.
+- **Whitespace is intentional.** Empty space groups related items and separates unrelated ones. Cramming and random gaps both fail.
+
+### 4. Style consistency (across the screen AND across the batch)
+
+- **Only one accent colour.** Count non-neutral hues. More than one means the sketch is pretending to be a final design.
+- **One primary CTA per screen.** One solid dark button. Secondary actions are outline or ghost. Two competing primaries force the eye to pick — don't make the user pick.
+- **One icon family + one fill style.** All `material-symbols:` and all-outline, or all-filled. No mixing filled and outline at the same hierarchy level. Sizes come from the sm/md/lg tokens only.
+- **Density matches DNA.** If the DNA block says `compact`, the whole batch is compact. No sliding into `comfortable` on screen 3 because "this one had more content".
+- **Type scale matches DNA.** Same scale across every screen in the batch. Screen 1's h1 is the same size as screen 2's h1.
+- **Tabular numbers on data.** Prices, quantities, timestamps, any numeric column that stacks vertically — use `tabular-nums` so digits align. Proportional digits in a table of prices is an instant "looks off" giveaway.
+- **Placeholder copy reads real.** "Acme Analytics — Q2 revenue up 12% vs Q1" beats "Lorem ipsum dolor sit amet". If the sketch is for a recipe app, the card titles are recipe names, not placeholder gibberish. Reviewers judge the design through the copy.
 
 ## Failure modes — stop and ask
 
@@ -254,4 +318,11 @@ Stick to Tailwind's `neutral-*` scale for surface/text, plus **one** accent colo
 | Adding a `package.json` or `npm install` step | Kills the "open by double-click" contract | No build step. Ever. |
 | Using `<img src="./local.png">` for mock images | Local files break when the user moves the sketches folder | `https://picsum.photos/seed/<name>/<w>/<h>` only |
 | More than one accent colour | Turns a sketch into a pretend final design | Pick one accent; everything else stays neutral-* |
+| Mixing filled and outline icons at the same hierarchy level | Looks like two designers fought | Lock fill style in the DNA block; stick to it for the whole batch |
+| Two or more primary CTAs competing on the same screen | Forces the user to pick; destroys the "one clear next step" feel | Exactly one solid dark button per screen; the rest outline/ghost |
+| Random spacing values breaking the 4/8 rhythm (`py-[13px]`, `gap-3.5`, `mt-[22px]`) | Kills visual rhythm; reads as "AI didn't care" | Pick from the Spacing tokens table. If something doesn't fit, change the layout, not the number |
+| Wall-of-text paragraphs with no visual break | Body copy that runs edge-to-edge past 80ch reads as unreviewed | `max-w-prose`, bullet lists, or split into cards |
+| Lorem ipsum or off-domain placeholder copy | Forces the reviewer to judge the layout without context and usually fails | Write copy that fits the product — product names, realistic numbers, real section titles |
+| DNA drift across the batch (screen 1 editorial+amber+compact, screen 2 clean+blue+comfortable) | Makes the set read as separate projects, not one product | Re-read the DNA block before starting each new sketch; verify in review pass |
+| Inconsistent icon sizes (18 / 22 / 26 mixed arbitrarily) | Nothing feels aligned | Icons come from sm/md/lg tokens (16/20/24) only |
 | Narrating every file write during review | Wastes the user's attention | One progress update per phase |
