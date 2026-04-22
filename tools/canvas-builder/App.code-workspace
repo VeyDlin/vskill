@@ -1,0 +1,253 @@
+{
+    "folders": [
+        {
+            "name": "App",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            ".vscode": true,
+            "**/.git": true,
+            "**/.husky": true,
+            "**/.review": true,
+            "**/node_modules": true,
+            "**/dist": true,
+            "**/dist-ssr": true,
+            "**/coverage": true,
+            "**/.vite": true,
+            "**/.cache": true,
+            "**/playwright-report": true,
+            "**/test-results": true,
+            "**/package-lock.json": true
+        },
+        "search.exclude": {
+            "**/.husky": true,
+            "**/.review": true,
+            "**/node_modules": true,
+            "**/dist": true,
+            "**/dist-ssr": true,
+            "**/coverage": true,
+            "**/playwright-report": true,
+            "**/test-results": true,
+            "**/package-lock.json": true,
+            "**/*.min.*": true
+        },
+
+        "explorer.fileNesting.enabled": true,
+        "explorer.fileNesting.expand": false,
+        "explorer.fileNesting.patterns": {
+            "index.html": "package.json, package-lock.json, vite.config.*, vitest.config.*, playwright.config.*, tsconfig.json, tsconfig.*.json, .npmrc, .nvmrc, eslint.config.*, .prettierrc*, .prettierignore, .editorconfig, .gitignore, .gitattributes, .env, .env.*, env.d.ts, vite-env.d.ts, auto-imports.d.ts, components.d.ts, app.config.*, *.code-workspace, .husky, Dockerfile*, .dockerignore, README.md, LICENSE*, CHANGELOG*",
+            "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+            "App.vue": "main.ts, main.js"
+        },
+
+        "editor.detectIndentation": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+        },
+        "editor.rulers": [120],
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": "active",
+        "editor.stickyScroll.enabled": true,
+        "editor.linkedEditing": true,
+        "editor.inlineSuggest.enabled": true,
+
+        "files.eol": "\n",
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.associations": {
+            ".env*": "dotenv",
+            "*.code-workspace": "jsonc"
+        },
+
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[vue]":      { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[json]":     { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[jsonc]":    { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[scss]":     { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[html]":     { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+        "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+        "eslint.validate": ["javascript", "typescript", "vue", "json", "jsonc"],
+        "eslint.useFlatConfig": true,
+        "eslint.format.enable": false,
+        "eslint.run": "onType",
+
+        "typescript.tsserver.maxTsServerMemory": 8192,
+        "typescript.preferences.importModuleSpecifier": "non-relative",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "typescript.suggest.autoImports": true,
+        "typescript.inlayHints.parameterNames.enabled": "literals",
+        "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+        "javascript.updateImportsOnFileMove.enabled": "always",
+
+        "vue.complete.casing.tags": "pascal",
+        "vue.complete.casing.props": "camel",
+        "vue.inlayHints.missingProps": true,
+
+        "explorer.confirmDragAndDrop": false,
+        "explorer.compactFolders": false,
+        "terminal.integrated.scrollback": 10000,
+        "workbench.editor.enablePreview": false,
+        "workbench.editorAssociations": {
+            "*.md": "vscode.markdown.preview.editor"
+        },
+
+        "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+        "errorLens.excludeBySource": ["cSpell"]
+    },
+
+    "extensions": {
+        "recommendations": [
+            "Vue.volar",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "EditorConfig.EditorConfig",
+
+            "usernamehw.errorlens",
+            "yoavbls.pretty-ts-errors",
+            "actboy168.tasks",
+
+            "antfu.iconify",
+            "bradlc.vscode-tailwindcss",
+
+            "mikestead.dotenv",
+            "christian-kohler.path-intellisense",
+            "formulahendry.auto-rename-tag",
+
+            "vitest.explorer",
+            "ms-playwright.playwright",
+
+            "eamodio.gitlens"
+        ],
+        "unwantedRecommendations": [
+            "octref.vetur",
+            "hookyqr.beautify"
+        ]
+    },
+
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Dev",
+                "detail": "Start Vite dev server with HMR",
+                "type": "shell",
+                "command": "npm run dev",
+                "isBackground": true,
+                "presentation": { "panel": "dedicated", "reveal": "always" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Preview",
+                "detail": "Serve the production build locally",
+                "type": "shell",
+                "command": "npm run preview",
+                "isBackground": true,
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Build",
+                "detail": "Build for production",
+                "type": "shell",
+                "command": "npm run build",
+                "group": "build",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Type Check",
+                "detail": "Run vue-tsc in no-emit mode",
+                "type": "shell",
+                "command": "npx vue-tsc --noEmit",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": ["$tsc"]
+            },
+            {
+                "label": "Lint",
+                "detail": "Run ESLint on all source files",
+                "type": "shell",
+                "command": "npx eslint .",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": ["$eslint-stylish"]
+            },
+            {
+                "label": "Lint: Fix",
+                "detail": "Run ESLint with autofix",
+                "type": "shell",
+                "command": "npx eslint . --fix",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Test",
+                "detail": "Run Vitest once",
+                "type": "shell",
+                "command": "npx vitest run",
+                "group": "test",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Test: Watch",
+                "detail": "Run Vitest in watch mode",
+                "type": "shell",
+                "command": "npx vitest",
+                "isBackground": true,
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Test: UI",
+                "detail": "Open Vitest interactive UI",
+                "type": "shell",
+                "command": "npx vitest --ui",
+                "isBackground": true,
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "E2E",
+                "detail": "Run Playwright end-to-end tests",
+                "type": "shell",
+                "command": "npx playwright test",
+                "group": "test",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "E2E: UI",
+                "detail": "Open Playwright UI mode",
+                "type": "shell",
+                "command": "npx playwright test --ui",
+                "isBackground": true,
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Install",
+                "detail": "Install dependencies",
+                "type": "shell",
+                "command": "npm install",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            },
+            {
+                "label": "Clean",
+                "detail": "Remove node_modules, dist, coverage, caches",
+                "type": "shell",
+                "command": "npx rimraf node_modules dist coverage .vite playwright-report test-results",
+                "presentation": { "panel": "dedicated" },
+                "problemMatcher": []
+            }
+        ]
+    }
+}

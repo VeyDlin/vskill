@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: -apple-system, system-ui, sans-serif;
+                background: #f6f7f9;
+                display: grid;
+                place-items: center;
+                min-height: 100vh;
+            }
+            .card {
+                width: 420px;
+                padding: 48px 40px;
+                background: #fff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            }
+            h1 {
+                margin: 0 0 8px;
+                font-size: 28px;
+            }
+            p.subtitle {
+                margin: 0 0 32px;
+                color: #6b7280;
+                font-size: 15px;
+            }
+            label {
+                display: block;
+                margin: 16px 0 6px;
+                font-size: 13px;
+                color: #374151;
+                font-weight: 500;
+            }
+            input {
+                width: 100%;
+                padding: 12px 14px;
+                font-size: 15px;
+                border: 1px solid #d1d5db;
+                border-radius: 8px;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+                margin-top: 24px;
+                padding: 12px;
+                background: #2563eb;
+                color: #fff;
+                border: 0;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 500;
+                cursor: pointer;
+            }
+            .footer {
+                margin-top: 20px;
+                text-align: center;
+                color: #6b7280;
+                font-size: 13px;
+            }
+            .footer a {
+                color: #2563eb;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>Welcome back</h1>
+            <p class="subtitle">Sign in to continue to your workspace.</p>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" />
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="••••••••" />
+            <button>Sign in</button>
+            <div class="footer">Don't have an account? <a href="#">Sign up</a></div>
+        </div>
+    </body>
+</html>

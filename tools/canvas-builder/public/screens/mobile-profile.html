@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Profile</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: -apple-system, system-ui, sans-serif;
+                background: #f6f7f9;
+                color: #111827;
+            }
+            .status-bar {
+                height: 44px;
+                background: #fff;
+            }
+            header {
+                padding: 16px 20px;
+                background: #fff;
+                font-size: 22px;
+                font-weight: 600;
+                text-align: center;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .hero {
+                background: #fff;
+                padding: 28px 20px;
+                text-align: center;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .avatar {
+                width: 84px;
+                height: 84px;
+                margin: 0 auto 12px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #7c3aed, #db2777);
+                color: #fff;
+                display: grid;
+                place-items: center;
+                font-weight: 700;
+                font-size: 32px;
+            }
+            .name {
+                font-size: 20px;
+                font-weight: 600;
+            }
+            .email {
+                color: #6b7280;
+                font-size: 14px;
+                margin-top: 2px;
+            }
+            .group {
+                background: #fff;
+                margin-top: 20px;
+                border-top: 1px solid #e5e7eb;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 14px 20px;
+                border-bottom: 1px solid #f3f4f6;
+                font-size: 15px;
+            }
+            .row:last-child {
+                border-bottom: 0;
+            }
+            .row .chev {
+                color: #9ca3af;
+            }
+            .row.danger {
+                color: #dc2626;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="status-bar"></div>
+        <header>Profile</header>
+        <div class="hero">
+            <div class="avatar">A</div>
+            <div class="name">Alex Morgan</div>
+            <div class="email">alex.morgan@example.com</div>
+        </div>
+        <div class="group">
+            <div class="row">Account<span class="chev">›</span></div>
+            <div class="row">Notifications<span class="chev">›</span></div>
+            <div class="row">Privacy<span class="chev">›</span></div>
+            <div class="row">Linked devices<span class="chev">›</span></div>
+        </div>
+        <div class="group">
+            <div class="row">Help & support<span class="chev">›</span></div>
+            <div class="row">About<span class="chev">›</span></div>
+        </div>
+        <div class="group">
+            <div class="row danger">Sign out</div>
+        </div>
+    </body>
+</html>

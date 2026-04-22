@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Dashboard</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: -apple-system, system-ui, sans-serif;
+                background: #f6f7f9;
+                color: #111827;
+            }
+            .app {
+                display: grid;
+                grid-template-columns: 240px 1fr;
+                min-height: 100vh;
+            }
+            .sidebar {
+                background: #111827;
+                color: #d1d5db;
+                padding: 24px 20px;
+            }
+            .logo {
+                font-size: 18px;
+                font-weight: 600;
+                color: #fff;
+                margin-bottom: 32px;
+            }
+            .nav-item {
+                padding: 10px 12px;
+                border-radius: 8px;
+                margin-bottom: 4px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+            .nav-item.active {
+                background: #1f2937;
+                color: #fff;
+            }
+            .main {
+                padding: 32px 48px;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 32px;
+            }
+            h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+            .stats {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+                margin-bottom: 32px;
+            }
+            .stat {
+                padding: 20px;
+                background: #fff;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+            }
+            .stat-label {
+                color: #6b7280;
+                font-size: 13px;
+            }
+            .stat-value {
+                font-size: 28px;
+                font-weight: 600;
+                margin-top: 4px;
+            }
+            .stat-delta {
+                font-size: 13px;
+                color: #059669;
+                margin-top: 4px;
+            }
+            .chart {
+                height: 280px;
+                background: #fff;
+                border: 1px solid #e5e7eb;
+                border-radius: 10px;
+                padding: 20px;
+                display: flex;
+                align-items: flex-end;
+                gap: 12px;
+            }
+            .bar {
+                flex: 1;
+                background: linear-gradient(180deg, #60a5fa, #2563eb);
+                border-radius: 6px 6px 0 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <div class="logo">Acme</div>
+                <div class="nav-item active">Dashboard</div>
+                <div class="nav-item">Orders</div>
+                <div class="nav-item">Customers</div>
+                <div class="nav-item">Reports</div>
+                <div class="nav-item">Settings</div>
+            </aside>
+            <main class="main">
+                <div class="header">
+                    <h1>Dashboard</h1>
+                    <div>Apr 22, 2026</div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Revenue</div>
+                        <div class="stat-value">$128,450</div>
+                        <div class="stat-delta">+12.4%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Orders</div>
+                        <div class="stat-value">1,284</div>
+                        <div class="stat-delta">+3.2%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Customers</div>
+                        <div class="stat-value">842</div>
+                        <div class="stat-delta">+8.1%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">AOV</div>
+                        <div class="stat-value">$100.03</div>
+                        <div class="stat-delta">+0.6%</div>
+                    </div>
+                </div>
+                <div class="chart">
+                    <div class="bar" style="height: 40%"></div>
+                    <div class="bar" style="height: 65%"></div>
+                    <div class="bar" style="height: 50%"></div>
+                    <div class="bar" style="height: 80%"></div>
+                    <div class="bar" style="height: 72%"></div>
+                    <div class="bar" style="height: 90%"></div>
+                    <div class="bar" style="height: 85%"></div>
+                    <div class="bar" style="height: 95%"></div>
+                    <div class="bar" style="height: 70%"></div>
+                    <div class="bar" style="height: 55%"></div>
+                    <div class="bar" style="height: 78%"></div>
+                    <div class="bar" style="height: 88%"></div>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
