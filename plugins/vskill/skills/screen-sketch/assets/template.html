@@ -28,23 +28,24 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 
     <style>
+        html, body { margin: 0; }
         html {
             font-family: "Inter var", "Inter", system-ui, sans-serif;
             font-feature-settings: "cv02", "cv03", "cv04", "cv11";
         }
     </style>
 </head>
-<body class="bg-neutral-100 py-10">
+<body class="bg-white text-neutral-900">
 
 <div id="app">
-    <!-- Artboard — locked to one viewport. Swap for mobile: w-[375px] min-h-[812px] -->
-    <div class="w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm relative">
 
-        <!-- TODO: fill this artboard with HTML matching the brief.
-             Use the vocabulary from SKILL.md.
-             No ref(), no computed(), no forms, no fetch — only static layout + v-for. -->
+    <!-- TODO: fill this page with the screen content matching the brief.
+         The page IS the artboard — it renders inside an iframe sized to the viewport declared in screens.js
+         (desktop 1440x900 or mobile 375x812). No outer wrapper, no centering, no shadow — the canvas viewer
+         supplies the frame, title, border and canvas background.
+         Use the vocabulary from SKILL.md.
+         No ref(), no computed(), no forms, no fetch — only static layout + v-for. -->
 
-    </div>
 </div>
 
 <script>

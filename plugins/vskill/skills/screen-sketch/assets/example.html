@@ -28,117 +28,115 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 
     <style>
+        html, body { margin: 0; }
         html {
             font-family: "Inter var", "Inter", system-ui, sans-serif;
             font-feature-settings: "cv02", "cv03", "cv04", "cv11";
         }
     </style>
 </head>
-<body class="bg-neutral-100 py-10">
+<body class="bg-white text-neutral-900">
 
 <div id="app">
-    <!-- Artboard: locked at 1440x900, centred like a Figma frame -->
-    <div class="w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm relative">
 
-        <!-- Top navigation -->
-        <header class="h-16 px-8 flex items-center justify-between border-b border-neutral-200">
-            <div class="flex items-center gap-8">
-                <div class="flex items-center gap-2">
-                    <iconify-icon icon="material-symbols:hexagon" class="text-2xl text-neutral-900"></iconify-icon>
-                    <span class="font-semibold text-neutral-900">Vektor</span>
-                </div>
-                <nav class="flex items-center gap-6 text-sm text-neutral-600">
-                    <a class="text-neutral-900 font-medium">Projects</a>
-                    <a>Tasks</a>
-                    <a>Team</a>
-                    <a>Reports</a>
-                </nav>
+    <!-- Top navigation -->
+    <header class="h-16 px-8 flex items-center justify-between border-b border-neutral-200">
+        <div class="flex items-center gap-8">
+            <div class="flex items-center gap-2">
+                <iconify-icon icon="material-symbols:hexagon" class="text-2xl text-neutral-900"></iconify-icon>
+                <span class="font-semibold text-neutral-900">Vektor</span>
             </div>
-            <div class="flex items-center gap-4 text-neutral-500">
-                <iconify-icon icon="material-symbols:search" class="text-xl"></iconify-icon>
-                <iconify-icon icon="material-symbols:notifications-outline" class="text-xl"></iconify-icon>
-                <img src="https://picsum.photos/seed/me/40/40" class="h-9 w-9 rounded-full">
-            </div>
-        </header>
+            <nav class="flex items-center gap-6 text-sm text-neutral-600">
+                <a class="text-neutral-900 font-medium">Projects</a>
+                <a>Tasks</a>
+                <a>Team</a>
+                <a>Reports</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4 text-neutral-500">
+            <iconify-icon icon="material-symbols:search" class="text-xl"></iconify-icon>
+            <iconify-icon icon="material-symbols:notifications-outline" class="text-xl"></iconify-icon>
+            <img src="https://picsum.photos/seed/me/40/40" class="h-9 w-9 rounded-full">
+        </div>
+    </header>
 
-        <!-- Page header -->
-        <section class="px-8 pt-10 pb-6 flex items-end justify-between">
-            <div>
-                <div class="text-sm text-neutral-500">Workspace / Vektor</div>
-                <h1 class="text-3xl font-semibold text-neutral-900 mt-1">Projects</h1>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="h-10 px-4 rounded-md border border-neutral-300 text-sm text-neutral-700 flex items-center gap-2">
-                    <iconify-icon icon="material-symbols:filter-list"></iconify-icon>
-                    Filters
-                </button>
-                <button class="h-10 px-4 rounded-md bg-neutral-900 text-white text-sm flex items-center gap-2">
-                    <iconify-icon icon="material-symbols:add"></iconify-icon>
-                    New project
-                </button>
-            </div>
-        </section>
+    <!-- Page header -->
+    <section class="px-8 pt-10 pb-6 flex items-end justify-between">
+        <div>
+            <div class="text-sm text-neutral-500">Workspace / Vektor</div>
+            <h1 class="text-3xl font-semibold text-neutral-900 mt-1">Projects</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <button class="h-10 px-4 rounded-md border border-neutral-300 text-sm text-neutral-700 flex items-center gap-2">
+                <iconify-icon icon="material-symbols:filter-list"></iconify-icon>
+                Filters
+            </button>
+            <button class="h-10 px-4 rounded-md bg-neutral-900 text-white text-sm flex items-center gap-2">
+                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                New project
+            </button>
+        </div>
+    </section>
 
-        <!-- Stats strip -->
-        <section class="px-8 grid grid-cols-3 gap-4 mb-8">
-            <div class="p-5 rounded-lg border border-neutral-200">
-                <div class="text-sm text-neutral-500">Active projects</div>
-                <div class="text-3xl font-semibold text-neutral-900 mt-2">24</div>
-                <div class="text-xs text-emerald-600 mt-2 flex items-center gap-1">
-                    <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
-                    +12% vs last week
-                </div>
+    <!-- Stats strip -->
+    <section class="px-8 grid grid-cols-3 gap-4 mb-8">
+        <div class="p-5 rounded-lg border border-neutral-200">
+            <div class="text-sm text-neutral-500">Active projects</div>
+            <div class="text-3xl font-semibold text-neutral-900 mt-2">24</div>
+            <div class="text-xs text-emerald-600 mt-2 flex items-center gap-1">
+                <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
+                +12% vs last week
             </div>
-            <div class="p-5 rounded-lg border border-neutral-200">
-                <div class="text-sm text-neutral-500">Tasks completed</div>
-                <div class="text-3xl font-semibold text-neutral-900 mt-2">348</div>
-                <div class="text-xs text-neutral-500 mt-2">This month</div>
+        </div>
+        <div class="p-5 rounded-lg border border-neutral-200">
+            <div class="text-sm text-neutral-500">Tasks completed</div>
+            <div class="text-3xl font-semibold text-neutral-900 mt-2">348</div>
+            <div class="text-xs text-neutral-500 mt-2">This month</div>
+        </div>
+        <div class="p-5 rounded-lg border border-neutral-200">
+            <div class="text-sm text-neutral-500">Team members</div>
+            <div class="text-3xl font-semibold text-neutral-900 mt-2">17</div>
+            <div class="flex -space-x-2 mt-2">
+                <img src="https://picsum.photos/seed/u1/28/28" class="h-7 w-7 rounded-full border-2 border-white">
+                <img src="https://picsum.photos/seed/u2/28/28" class="h-7 w-7 rounded-full border-2 border-white">
+                <img src="https://picsum.photos/seed/u3/28/28" class="h-7 w-7 rounded-full border-2 border-white">
+                <img src="https://picsum.photos/seed/u4/28/28" class="h-7 w-7 rounded-full border-2 border-white">
             </div>
-            <div class="p-5 rounded-lg border border-neutral-200">
-                <div class="text-sm text-neutral-500">Team members</div>
-                <div class="text-3xl font-semibold text-neutral-900 mt-2">17</div>
-                <div class="flex -space-x-2 mt-2">
-                    <img src="https://picsum.photos/seed/u1/28/28" class="h-7 w-7 rounded-full border-2 border-white">
-                    <img src="https://picsum.photos/seed/u2/28/28" class="h-7 w-7 rounded-full border-2 border-white">
-                    <img src="https://picsum.photos/seed/u3/28/28" class="h-7 w-7 rounded-full border-2 border-white">
-                    <img src="https://picsum.photos/seed/u4/28/28" class="h-7 w-7 rounded-full border-2 border-white">
-                </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Projects grid — Vue v-for just to avoid copy-paste, not real logic -->
-        <section class="px-8 grid grid-cols-3 gap-5 pb-10">
-            <article
-                v-for="project in projects"
-                :key="project.id"
-                class="rounded-lg border border-neutral-200 overflow-hidden"
-            >
-                <img :src="`https://picsum.photos/seed/${project.id}/600/320`" class="aspect-video w-full object-cover">
-                <div class="p-5">
-                    <span class="text-xs px-2 py-0.5 rounded bg-neutral-100 text-neutral-600">{{ project.tag }}</span>
-                    <h3 class="font-semibold text-neutral-900 mt-3">{{ project.title }}</h3>
-                    <p class="text-sm text-neutral-500 mt-1">{{ project.desc }}</p>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-neutral-100">
-                        <div class="flex -space-x-2">
-                            <img :src="`https://picsum.photos/seed/${project.id}-a/24/24`" class="h-6 w-6 rounded-full border-2 border-white">
-                            <img :src="`https://picsum.photos/seed/${project.id}-b/24/24`" class="h-6 w-6 rounded-full border-2 border-white">
-                        </div>
-                        <div class="text-xs text-neutral-500 flex items-center gap-3">
-                            <span class="flex items-center gap-1">
-                                <iconify-icon icon="material-symbols:chat-outline"></iconify-icon>
-                                12
-                            </span>
-                            <span class="flex items-center gap-1">
-                                <iconify-icon icon="material-symbols:task-alt"></iconify-icon>
-                                8 / 16
-                            </span>
-                        </div>
+    <!-- Projects grid — Vue v-for just to avoid copy-paste, not real logic -->
+    <section class="px-8 grid grid-cols-3 gap-5 pb-10">
+        <article
+            v-for="project in projects"
+            :key="project.id"
+            class="rounded-lg border border-neutral-200 overflow-hidden"
+        >
+            <img :src="`https://picsum.photos/seed/${project.id}/600/320`" class="aspect-video w-full object-cover">
+            <div class="p-5">
+                <span class="text-xs px-2 py-0.5 rounded bg-neutral-100 text-neutral-600">{{ project.tag }}</span>
+                <h3 class="font-semibold text-neutral-900 mt-3">{{ project.title }}</h3>
+                <p class="text-sm text-neutral-500 mt-1">{{ project.desc }}</p>
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-neutral-100">
+                    <div class="flex -space-x-2">
+                        <img :src="`https://picsum.photos/seed/${project.id}-a/24/24`" class="h-6 w-6 rounded-full border-2 border-white">
+                        <img :src="`https://picsum.photos/seed/${project.id}-b/24/24`" class="h-6 w-6 rounded-full border-2 border-white">
+                    </div>
+                    <div class="text-xs text-neutral-500 flex items-center gap-3">
+                        <span class="flex items-center gap-1">
+                            <iconify-icon icon="material-symbols:chat-outline"></iconify-icon>
+                            12
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <iconify-icon icon="material-symbols:task-alt"></iconify-icon>
+                            8 / 16
+                        </span>
                     </div>
                 </div>
-            </article>
-        </section>
+            </div>
+        </article>
+    </section>
 
-    </div>
 </div>
 
 <script>

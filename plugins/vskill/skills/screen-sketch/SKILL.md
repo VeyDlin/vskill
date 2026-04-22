@@ -40,8 +40,9 @@ Inside `<target>/sketches/`:
 
 ```
 sketches/
-├── index.html          # links to every sketch (navigation hub for review)
-├── home.html           # one HTML file per screen
+├── canvas.html         # Figma-like canvas viewer (copied from skill asset, pre-built, do not edit)
+├── screens.js          # manifest — array of { path, width, height, title } loaded by canvas.html
+├── home.html           # one HTML file per screen (a.k.a. artboards)
 ├── dashboard.html
 ├── settings.html
 └── ...
@@ -49,7 +50,7 @@ sketches/
 
 Plus screenshots in `<target>/.review/` (same convention as `design-prototype`).
 
-Each `.html` is standalone — copies the full CDN header, renders its own artboard. Opens by double-click. No `package.json`, no `node_modules`.
+Each artboard is a standalone HTML — CDN header + one artboard, opens by double-click. No `package.json`, no `node_modules`. The user's primary entry point is `canvas.html` — double-clicking it shows every sketch at once on a pannable, zoomable board (like opening a Figma page). Individual artboards still work standalone if opened directly.
 
 ## Stack (CDN-only)
 
@@ -91,37 +92,38 @@ For each screen listed:
 
 1. Copy `assets/template.html` to `<target>/sketches/<screen>.html`.
 2. Set the `<title>` to the screen name.
-3. Replace the `<!-- TODO -->` marker inside the artboard wrapper with the screen's content, built from the vocabulary below.
-4. Adjust the artboard wrapper to match the chosen viewport:
-   - Desktop: `class="w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm relative"`
-   - Mobile: `class="w-[375px] min-h-[812px] mx-auto bg-white shadow-sm relative"`
+3. Replace the `<!-- TODO -->` marker inside `#app` with the screen's content, built from the vocabulary below.
+
+**No artboard wrapper.** The page *is* the artboard — the iframe in `canvas.html` sizes itself from `screens.js` (1440×900 or 375×812). Do not add `w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm` wrappers inside the body: the canvas viewer already supplies the frame, title, border and canvas background. Adding one produces a white card-in-card with wasted padding. Let `body` (`bg-white`, 0 margin in the template) fill the iframe edge-to-edge.
 
 If the screen has repeated items (card grid, list rows, avatar stack), put the array in the Vue `data()` block at the bottom and `v-for` over it — avoids copy-paste and makes iteration cheaper.
 
-### 3. Generate `index.html`
+### 3. Wire up the canvas viewer
 
-Create `sketches/index.html` — a plain list of links to every sketch. This is the review hub: `chrome-devtools` opens it first to discover all sketches.
+Two things in this step:
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sketches</title>
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>html { font-family: "Inter var", system-ui, sans-serif; }</style>
-</head>
-<body class="bg-neutral-100 min-h-screen">
-    <div class="max-w-2xl mx-auto py-16 px-8">
-        <h1 class="text-2xl font-semibold text-neutral-900 mb-6">Sketches</h1>
-        <ul class="space-y-2">
-            <li><a href="./home.html" class="text-blue-600 hover:underline">home.html</a></li>
-            <!-- one <li> per sketch -->
-        </ul>
-    </div>
-</body>
-</html>
+1. **Copy the pre-built canvas viewer.** `assets/canvas.html` → `<target>/sketches/canvas.html`. This is a ~500KB single-file Vue 3 app (built separately, shipped as a static asset). **Do not edit it, do not regenerate it, do not try to build it from source here** — treat it as an opaque binary. If it looks wrong, the fix is in the canvas source project (`tools/canvas-builder/`), not in this skill.
+
+2. **Generate `sketches/screens.js`** — the manifest `canvas.html` reads at runtime:
+
+```js
+window.SCREENS = [
+    { path: "home.html", width: 1440, height: 900, title: "Home" },
+    { path: "dashboard.html", width: 1440, height: 900, title: "Dashboard" },
+    { path: "settings.html", width: 1440, height: 900, title: "Settings" },
+];
 ```
+
+Field rules:
+- `path` — filename relative to `canvas.html`. Since sketches sit next to it, just the filename.
+- `width` / `height` — the viewport picked in step 1. Every entry in a batch uses the same pair (desktop 1440×900 or mobile 375×812).
+- `title` — human-readable name; take it from the step 1 screen list (e.g. `home.html — landing/hero` → `"Home"`).
+
+Order of the array = reading order on the canvas. Frames auto-flow left-to-right, wrapping when the row exceeds ~4000px. Group related screens next to each other in the array.
+
+When the user opens `sketches/canvas.html`, the viewer reads `screens.js`, renders each sketch as an iframe on an infinite pannable canvas, and auto-fits everything into view. Toolbar at the bottom has zoom in/out, fit-all, and 100%. Double-click a frame to fit just that frame. Wheel zooms around the cursor.
+
+**Important for `file://`:** the viewer loads `screens.js` via a `<script>` tag, so it works from disk without a server (unlike `fetch` on JSON, which Chrome blocks on `file://`).
 
 ### 4. Visual review loop
 
@@ -141,10 +143,12 @@ When every sketch passes:
 
 ```
 Project:    [target path]
-Sketches:   [list, each with the file:// URL]
+Open:       file:///<abs-path>/sketches/canvas.html   ← main entry point (all sketches on one canvas)
+Sketches:   [list of individual file:// URLs for direct access]
 Screens:    [final screenshot paths under .review/ — gitignored, so spell them out]
 Viewport:   [desktop 1440×900 | mobile 375×812]
-Stack:      Pure HTML + Tailwind CDN + Vue 3 global + Iconify + Inter Variable (no build)
+Stack:      Pure HTML + Tailwind CDN + Vue 3 global + Iconify + Inter Variable (no build) for sketches;
+            pre-built canvas viewer shipped as static asset.
 Next:       [one line — e.g. "promote the approved sketches to a working prototype via design-prototype", "tighten copy on dashboard", "add an empty-state sketch for zero projects"]
 ```
 
@@ -181,8 +185,6 @@ Memorise these. Write directly; don't build a component layer.
 
 | Purpose | Snippet |
 |---------|---------|
-| Artboard (desktop) | `<div class="w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm relative">` |
-| Artboard (mobile) | `<div class="w-[375px] min-h-[812px] mx-auto bg-white shadow-sm relative">` |
 | Top navbar | `<header class="h-16 px-8 flex items-center justify-between border-b border-neutral-200">` |
 | Sidebar | `<aside class="w-60 h-full border-r border-neutral-200 p-4">` |
 | Card | `<div class="p-5 rounded-lg border border-neutral-200">...</div>` |
@@ -225,7 +227,7 @@ Stick to Tailwind's `neutral-*` scale for surface/text, plus **one** accent colo
 ## Polish checklist (each sketch must pass all)
 
 - **No console errors.** A `404` on a CDN or `iconify-icon not registered` means a resource failed — fix before anything else.
-- **Artboard fits the viewport.** Content does not overflow the fixed `w-[...px]` wrapper. Horizontal scroll inside the artboard is a defect.
+- **Content fits the declared viewport.** Body fills the iframe edge-to-edge (1440×900 or 375×812 — same values you put in `screens.js`). No horizontal scroll inside the page. Do not wrap content in a `w-[1440px] ... shadow-sm` artboard div — that's the canvas viewer's job, not the sketch's.
 - **Hierarchy is visible.** h1 > h2 > body is distinguishable by size and/or weight. If every line looks the same, fix it.
 - **Spacing scale is consistent.** Gaps are from `0.25 / 0.5 / 0.75 / 1 / 1.5 / 2 rem` — not random values like `gap-3.5`.
 - **All images render.** No broken-image icons. `picsum.photos` URLs must load — check console for 4xx.
@@ -244,6 +246,7 @@ Stick to Tailwind's `neutral-*` scale for surface/text, plus **one** accent colo
 
 | Pitfall | Why it's wrong | Fix |
 |---------|----------------|-----|
+| Wrapping content in a `w-[1440px] min-h-[900px] mx-auto bg-white shadow-sm` artboard div | The canvas viewer already provides the frame, title, border and canvas background. Adding another artboard inside the iframe produces a card-in-card with wasted outer padding | Let `body` (bg-white, 0 margin) fill the iframe; the iframe itself is sized from `screens.js` |
 | Using Tailwind responsive prefixes (`sm:`, `md:`, `lg:`) | Sketches are single-viewport; prefixes imply adaptive design that isn't there | Strip all breakpoint prefixes |
 | Writing `ref()` / `computed()` / `watch` in the Vue block | This is a sketch, not a prototype; reactivity belongs to `design-prototype` | Plain `data()` with static arrays, only for `v-for` de-duplication |
 | Using Nuxt UI components like `<UButton>`, `<USkeleton>`, `<UCard>` | Nuxt UI isn't loaded in this stack; those are for `design-prototype` | Use the vocabulary above — plain HTML + Tailwind |
