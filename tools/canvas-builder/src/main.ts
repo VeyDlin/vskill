@@ -5,9 +5,12 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
 
 import App from "@/App.vue";
+import { initTheme } from "@/composables/useTheme";
 import router from "@/router";
 
 import "@/assets/css/main.css";
+
+initTheme();
 
 const app = createApp(App);
 

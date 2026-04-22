@@ -46,7 +46,9 @@ function onIframeError(): void {
             />
             <div v-else class="not-found">
                 <p>{{ props.screen.path }}</p>
-                <p class="hint">not found</p>
+                <p class="hint">
+                    not found
+                </p>
             </div>
         </div>
     </div>
@@ -64,14 +66,14 @@ function onIframeError(): void {
         padding: 0 0.75rem;
         font-size: 0.875rem;
         font-weight: 500;
-        color: var(--ui-text);
+        color: var(--canvas-title);
         background: transparent;
         user-select: none;
     }
 
     .body {
-        background: var(--ui-bg);
-        border: 1px solid var(--ui-border);
+        background: var(--canvas-frame-bg);
+        border: 1px solid var(--canvas-frame-border);
         overflow: hidden;
 
         .iframe {
@@ -79,7 +81,7 @@ function onIframeError(): void {
             width: 100%;
             height: 100%;
             pointer-events: none;
-            background: var(--ui-bg);
+            background: var(--canvas-frame-bg);
         }
 
         .not-found {
@@ -90,7 +92,7 @@ function onIframeError(): void {
             width: 100%;
             height: 100%;
             padding: 1rem;
-            color: var(--ui-text-muted);
+            color: var(--canvas-text-muted);
             font-family: monospace;
             font-size: 0.875rem;
             gap: 0.25rem;

@@ -1,2 +1,37 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+:root {
+    --canvas-bg: #f5efe1;
+    --canvas-grid: #e7ddc8;
+    --canvas-frame-bg: #ffffff;
+    --canvas-frame-border: #c4b99a;
+    --canvas-title: #6b5f4a;
+    --canvas-toolbar-bg: #ffffff;
+    --canvas-toolbar-border: #c4b99a;
+    --canvas-toolbar-text: #3d3730;
+    --canvas-toolbar-shadow: 0 6px 24px rgb(107 95 74 / 0.18);
+    --canvas-text-muted: #8a7f6a;
+}
+
+html.dark {
+    --canvas-bg: #26241f;
+    --canvas-grid: #33302a;
+    --canvas-frame-bg: #1a1815;
+    --canvas-frame-border: #4a4640;
+    --canvas-title: #c0b8a8;
+    --canvas-toolbar-bg: #2f2d28;
+    --canvas-toolbar-border: #4a4640;
+    --canvas-toolbar-text: #e8e0d0;
+    --canvas-toolbar-shadow: 0 6px 24px rgb(0 0 0 / 0.45);
+    --canvas-text-muted: #9a907e;
+}
+
+html,
+body,
+#app {
+    margin: 0;
+    height: 100%;
+    background: var(--canvas-bg);
+    color: var(--canvas-toolbar-text);
+}

@@ -88,13 +88,18 @@ watch(state, async (next) => {
     position: fixed;
     inset: 0;
     overflow: hidden;
-    background: var(--ui-bg-muted);
+    background: var(--canvas-bg);
 
     .viewport {
         position: absolute;
         inset: 0;
         cursor: grab;
         overflow: hidden;
+        background-color: var(--canvas-bg);
+        background-image:
+            linear-gradient(var(--canvas-grid) 1px, transparent 1px),
+            linear-gradient(90deg, var(--canvas-grid) 1px, transparent 1px);
+        background-size: 32px 32px;
 
         &:active {
             cursor: grabbing;
@@ -112,7 +117,7 @@ watch(state, async (next) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--ui-text-muted);
+        color: var(--canvas-text-muted);
         pointer-events: none;
     }
 }

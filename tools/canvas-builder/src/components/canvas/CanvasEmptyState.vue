@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    color: var(--ui-text-muted);
+    color: var(--canvas-text-muted);
     pointer-events: none;
 
     .icon {
