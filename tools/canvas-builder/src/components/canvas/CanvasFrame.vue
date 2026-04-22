@@ -73,7 +73,6 @@ function onIframeError(): void {
 
     .body {
         background: var(--canvas-frame-bg);
-        border: 1px solid var(--canvas-frame-border);
         overflow: hidden;
 
         .iframe {
