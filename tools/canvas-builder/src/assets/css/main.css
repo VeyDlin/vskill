@@ -2,29 +2,16 @@
 @import "@nuxt/ui";
 
 :root {
-    --canvas-bg: #f8f1f0;
-    --canvas-grid: #f2e8dd;
-    --canvas-frame-bg: #ffffff;
-    --canvas-frame-border: #e8c9a6;
-    --canvas-title: #6b4a30;
-    --canvas-toolbar-bg: #fce1c8;
-    --canvas-toolbar-border: #e8c9a6;
-    --canvas-toolbar-text: #4a3020;
-    --canvas-toolbar-shadow: 0 6px 24px rgb(107 74 48 / 0.15);
-    --canvas-text-muted: #a08060;
-}
-
-html.dark {
-    --canvas-bg: #080700;
-    --canvas-grid: #14100a;
-    --canvas-frame-bg: #1a120a;
-    --canvas-frame-border: #3a2a1e;
-    --canvas-title: #c8b89e;
-    --canvas-toolbar-bg: #2b1d14;
-    --canvas-toolbar-border: #3a2a1e;
-    --canvas-toolbar-text: #e8d8c0;
-    --canvas-toolbar-shadow: 0 6px 24px rgb(0 0 0 / 0.6);
-    --canvas-text-muted: #8a7a60;
+    --canvas-bg: var(--ui-bg);
+    --canvas-grid: color-mix(in srgb, var(--ui-bg), var(--ui-border));
+    --canvas-frame-bg: var(--ui-bg-elevated);
+    --canvas-frame-border: var(--ui-border);
+    --canvas-title: var(--ui-text);
+    --canvas-toolbar-bg: var(--ui-bg-elevated);
+    --canvas-toolbar-border: var(--ui-border);
+    --canvas-toolbar-text: var(--ui-text);
+    --canvas-toolbar-shadow: 0 6px 24px rgb(0 0 0 / 0.15);
+    --canvas-text-muted: var(--ui-text-muted);
 }
 
 html,

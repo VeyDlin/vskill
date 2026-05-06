@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useTheme } from "@/composables/useTheme";
+import { useDarkMode } from "@/composables/useDarkMode";
 
 interface Emits {
     (event: "zoomIn"): void;
@@ -11,54 +11,58 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const { theme, toggle } = useTheme();
+const { mode, toggle } = useDarkMode();
 
 const themeIcon = computed(() =>
-    theme.value === "dark"
+    mode.value === "dark"
         ? "i-material-symbols:light-mode-outline"
         : "i-material-symbols:dark-mode-outline",
 );
 </script>
 
 <template>
-    <div class="toolbar">
-        <UButton icon="i-material-symbols:remove-rounded" variant="ghost" size="sm" color="neutral" @click="emit('zoomOut')" />
-        <UButton icon="i-material-symbols:add-rounded" variant="ghost" size="sm" color="neutral" @click="emit('zoomIn')" />
-        <div class="divider" />
-        <UButton variant="ghost" size="sm" color="neutral" @click="emit('fitAll')">
+    <UCard
+        :ui="{ body: 'p-1.5 sm:p-1.5 flex items-center gap-0.5' }"
+        class="fixed bottom-5 left-1/2 -translate-x-1/2 z-10 shadow-lg select-none"
+    >
+        <UButton
+            icon="i-material-symbols:remove-rounded"
+            variant="ghost"
+            size="sm"
+            color="neutral"
+            @click="emit('zoomOut')"
+        />
+        <UButton
+            icon="i-material-symbols:add-rounded"
+            variant="ghost"
+            size="sm"
+            color="neutral"
+            @click="emit('zoomIn')"
+        />
+        <USeparator orientation="vertical" class="h-5 mx-1" />
+        <UButton
+            variant="ghost"
+            size="sm"
+            color="neutral"
+            @click="emit('fitAll')"
+        >
             Fit all
         </UButton>
-        <UButton variant="ghost" size="sm" color="neutral" @click="emit('reset')">
+        <UButton
+            variant="ghost"
+            size="sm"
+            color="neutral"
+            @click="emit('reset')"
+        >
             100%
         </UButton>
-        <div class="divider" />
-        <UButton :icon="themeIcon" variant="ghost" size="sm" color="neutral" @click="toggle" />
-    </div>
+        <USeparator orientation="vertical" class="h-5 mx-1" />
+        <UButton
+            :icon="themeIcon"
+            variant="ghost"
+            size="sm"
+            color="neutral"
+            @click="toggle"
+        />
+    </UCard>
 </template>
-
-<style scoped lang="scss">
-.toolbar {
-    position: fixed;
-    bottom: 1.25rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.375rem;
-    border-radius: 0.5rem;
-    background: var(--canvas-toolbar-bg);
-    color: var(--canvas-toolbar-text);
-    border: 1px solid var(--canvas-toolbar-border);
-    box-shadow: var(--canvas-toolbar-shadow);
-    z-index: 10;
-    user-select: none;
-
-    .divider {
-        width: 1px;
-        height: 1.25rem;
-        background: var(--canvas-toolbar-border);
-        margin: 0 0.25rem;
-    }
-}
-</style>

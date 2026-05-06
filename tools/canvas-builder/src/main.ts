@@ -5,12 +5,14 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
 
 import App from "@/App.vue";
-import { initTheme } from "@/composables/useTheme";
+import { initDarkMode } from "@/composables/useDarkMode";
+import { useTheme } from "@/composables/useTheme";
 import router from "@/router";
 
 import "@/assets/css/main.css";
 
-initTheme();
+initDarkMode();
+useTheme();
 
 const app = createApp(App);
 

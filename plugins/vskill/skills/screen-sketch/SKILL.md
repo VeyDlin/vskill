@@ -1,6 +1,6 @@
 ---
 name: screen-sketch
-description: Draws static HTML "screen sketches" — Figma-style artboards rendered as plain HTML files, opened directly via `file://` with no build step. Use when the user wants a rough visual draft of screens without any working functionality ("набросай экраны", "sketch me a layout", "покажи как могло бы выглядеть", "quick mockup", "wireframe for...", "static mockup", "like in Figma, but in code"). Stack is CDN-only — Tailwind Play CDN + Vue 3 global build + Iconify web component + picsum.photos + Inter Variable. Every sketch is locked to one chosen viewport (desktop 1440×900 or mobile 375×812), no adaptivity, no state, no router, no API. Drives `chrome-devtools` MCP to screenshot each `.html` file, self-critiques against a structural polish checklist, and iterates until the sketch reads cleanly. Distinct from `design-prototype`: that skill builds working Vue apps with real routing/data/states; this skill draws frozen artboards.
+description: Draws static HTML "screen sketches" — Figma-style artboards rendered as plain HTML files, opened directly via `file://` with no build step. Use when the user wants a rough visual draft of screens without any working functionality ("набросай экраны", "sketch me a layout", "покажи как могло бы выглядеть", "quick mockup", "wireframe for...", "static mockup", "like in Figma, but in code"). Stack is CDN-only — Tailwind Play CDN + Vue 3 global build + Iconify web component + picsum.photos + Inter Variable. Each artboard is locked to one viewport (desktop 1440×900 or mobile 375×812); a batch can mix devices via the manifest's `device` field, and group screens into named sections via the `group` field — the canvas viewer renders device tabs at the top and group headers in-canvas. No adaptivity within an artboard, no state, no router, no API. Drives `chrome-devtools` MCP to screenshot each `.html` file, self-critiques against a structural polish checklist, and iterates until the sketch reads cleanly. Distinct from `design-prototype`: that skill builds working Vue apps with real routing/data/states; this skill draws frozen artboards.
 ---
 
 # Screen Sketch — Figma-style artboards in pure HTML
@@ -41,7 +41,8 @@ Inside `<target>/sketches/`:
 ```
 sketches/
 ├── canvas.html         # Figma-like canvas viewer (copied from skill asset, pre-built, do not edit)
-├── screens.js          # manifest — array of { path, width, height, title } loaded by canvas.html
+├── screens.js          # manifest — array of { path, width, height, title, device?, group? }
+│                       # plus optional window.SCREENS_CONFIG = { perRow?, devices?, groups? }
 ├── home.html           # one HTML file per screen (a.k.a. artboards)
 ├── dashboard.html
 ├── settings.html
@@ -77,17 +78,21 @@ Read the brief once. Produce **one** block in this shape, then wait for a **sing
 
 ```
 Brief:      [one-line paraphrase]
-Viewport:   [desktop 1440×900 | mobile 375×812 — pick one, ask if unclear]
+Viewport:   [desktop 1440×900 | mobile 375×812 — pick one if all screens share it,
+             OR list both and use `device` field per-screen in step 3 if mixing]
 Style DNA:  mood     — [clean | editorial | playful | brutalist | content-first — pick one]
             accent   — [blue-600 | emerald-600 | red-500 | violet-600 | amber-500 — one Tailwind hue]
             density  — [comfortable (py-4, gap-6, card p-6) | compact (py-2, gap-3, card p-4)]
             scale    — [standard 12/14/16/20/24/32 | editorial 14/16/18/24/30/40]
             icons    — [material-symbols outline | material-symbols filled — pick ONE fill style]
-Screens:    [home.html — landing/hero, ...]
-            [dashboard.html — list of items, ...]
-            [settings.html — account options, ...]
+Screens:    [home.html — landing/hero — desktop / main, ...]
+            [dashboard.html — list of items — desktop / main, ...]
+            [mobile-home.html — phone home — mobile / main, ...]
+            [settings.html — account options — desktop / settings, ...]
 Vocabulary: [any non-standard elements — charts, maps, video — flag them so you know what to fake]
 ```
+
+If the batch mixes desktop and mobile, list each screen with its `device / group` pair in the `Screens:` block (e.g. `home.html — desktop / main`). The viewer will render device tabs at the top and let the user flip between them. Single-device batches don't need the `device` part — leave the field off in the manifest and no tabs are shown. **DNA still applies across the whole batch** regardless of device count: same accent, same density, same icon family — desktop and mobile sketches must read as one product.
 
 Do not propose A/B options. Pick one plan; user says "go" or redirects.
 
@@ -115,20 +120,32 @@ Two things in this step:
 
 ```js
 window.SCREENS = [
-    { path: "home.html", width: 1440, height: 900, title: "Home" },
-    { path: "dashboard.html", width: 1440, height: 900, title: "Dashboard" },
-    { path: "settings.html", width: 1440, height: 900, title: "Settings" },
+    { path: "login.html",        width: 1440, height: 900, title: "Login",     device: "desktop", group: "auth" },
+    { path: "dashboard.html",    width: 1440, height: 900, title: "Dashboard", device: "desktop", group: "main" },
+    { path: "mobile-home.html",  width: 375,  height: 812, title: "Home",      device: "mobile",  group: "main" },
+    { path: "mobile-profile.html", width: 375, height: 812, title: "Profile",  device: "mobile",  group: "settings" },
 ];
+
+window.SCREENS_CONFIG = {
+    perRow: 2,
+};
 ```
 
 Field rules:
 - `path` — filename relative to `canvas.html`. Since sketches sit next to it, just the filename.
-- `width` / `height` — the viewport picked in step 1. Every entry in a batch uses the same pair (desktop 1440×900 or mobile 375×812).
-- `title` — human-readable name; take it from the step 1 screen list (e.g. `home.html — landing/hero` → `"Home"`).
+- `width` / `height` — the artboard's exact viewport in pixels (desktop 1440×900 or mobile 375×812). Within one device, every entry uses the same pair.
+- `title` — short human-readable name; take it from the step 1 screen list (`home.html — landing/hero` → `"Home"`). Don't repeat the device — `"Home"` is enough; the viewer already labels the device tab.
+- `device` *(optional)* — free-form bucket name (e.g. `"desktop"`, `"mobile"`, `"tv"`). The viewer renders one tab per unique device at the top of the canvas; the active tab filters which artboards are visible. **Omit on every screen if the batch is single-device** — without `device`, all screens go to one default bucket and no tabs are shown (matches the original single-viewport flow).
+- `group` *(optional)* — free-form section name within a device (e.g. `"auth"`, `"onboarding"`, `"settings"`). Each group gets a large header rendered in the world above its row of artboards. Omit if the batch has no logical sub-sections — a single default group renders without a header.
 
-Order of the array = reading order on the canvas. Frames auto-flow left-to-right, wrapping when the row exceeds ~4000px. Group related screens next to each other in the array.
+`SCREENS_CONFIG` *(optional, sits next to `SCREENS` on `window`)*:
+- `perRow` — fixed wrap-after-N within each group (e.g. `perRow: 2` → exactly 2 artboards per row, the next wraps). If omitted, the viewer wraps by total row width (~4000px), which is the original behaviour.
+- `devices` — explicit ordering for device tabs (e.g. `["desktop", "mobile"]`). Without it, tabs appear in first-seen-in-`SCREENS` order.
+- `groups` — explicit ordering for groups within each device. Without it, groups appear in first-seen order.
 
-When the user opens `sketches/canvas.html`, the viewer reads `screens.js`, renders each sketch as an iframe on an infinite pannable canvas, and auto-fits everything into view. Toolbar at the bottom has zoom in/out, fit-all, and 100%. Double-click a frame to fit just that frame. Wheel zooms around the cursor.
+Order of the `SCREENS` array = reading order on the canvas. Group related screens next to each other in the array; the viewer's grouping is on top of that order.
+
+When the user opens `sketches/canvas.html`, the viewer reads `screens.js`, renders each sketch as an iframe, and auto-fits the active device's screens. Device tabs sit fixed at the top (only when more than one device exists). The bottom toolbar has zoom in/out, fit-all, and 100%. Double-click a frame to fit just that frame. Wheel zooms around the cursor. All iframes (across every device and group) load eagerly at mount, so switching device tabs is instant — no black-flash reload.
 
 **Important for `file://`:** the viewer loads `screens.js` via a `<script>` tag, so it works from disk without a server (unlike `fetch` on JSON, which Chrome blocks on `file://`).
 

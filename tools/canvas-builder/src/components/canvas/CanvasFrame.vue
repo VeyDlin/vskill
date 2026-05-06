@@ -40,7 +40,7 @@ function onIframeError(): void {
                 :src="props.screen.path"
                 :width="props.screen.width"
                 :height="props.screen.height"
-                loading="lazy"
+                loading="eager"
                 frameborder="0"
                 @error="onIframeError"
             />

@@ -14,11 +14,17 @@ declare module 'vue' {
     CanvasEmptyState: typeof import('./src/components/canvas/CanvasEmptyState.vue')['default']
     CanvasErrorPanel: typeof import('./src/components/canvas/CanvasErrorPanel.vue')['default']
     CanvasFrame: typeof import('./src/components/canvas/CanvasFrame.vue')['default']
+    CanvasGrid: typeof import('./src/components/canvas/CanvasGrid.vue')['default']
+    CanvasGroupHeader: typeof import('./src/components/canvas/CanvasGroupHeader.vue')['default']
     CanvasToolbar: typeof import('./src/components/canvas/CanvasToolbar.vue')['default']
+    DeviceTabs: typeof import('./src/components/canvas/DeviceTabs.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UAlert: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Alert.vue')['default']
     UButton: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
+    UCard: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
     UIcon: typeof import('./node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
+    USeparator: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Separator.vue')['default']
+    UTabs: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Tabs.vue')['default']
   }
 }

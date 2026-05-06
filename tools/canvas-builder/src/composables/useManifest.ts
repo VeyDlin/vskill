@@ -1,10 +1,11 @@
-import type { Manifest } from "@/schemas/manifest.schema";
+import type { Manifest, ManifestConfig } from "@/schemas/manifest.schema";
 import { onMounted, ref } from "vue";
-import { manifestSchema } from "@/schemas/manifest.schema";
+import { manifestConfigSchema, manifestSchema } from "@/schemas/manifest.schema";
 
 declare global {
     interface Window {
         SCREENS?: unknown;
+        SCREENS_CONFIG?: unknown;
     }
 }
 
@@ -15,6 +16,7 @@ const MANIFEST_SRC = "./screens.js";
 export function useManifest() {
     const state = ref<ManifestState>("loading");
     const screens = ref<Manifest>([]);
+    const config = ref<ManifestConfig>(undefined);
     const error = ref<string | null>(null);
 
     onMounted(() => {
@@ -36,6 +38,17 @@ export function useManifest() {
                 return;
             }
 
+            const cfgRaw = window.SCREENS_CONFIG;
+            if (cfgRaw !== undefined) {
+                const cfgResult = manifestConfigSchema.safeParse(cfgRaw);
+                if (!cfgResult.success) {
+                    state.value = "error";
+                    error.value = `SCREENS_CONFIG: ${formatZodError(cfgResult.error)}`;
+                    return;
+                }
+                config.value = cfgResult.data;
+            }
+
             if (result.data.length === 0) {
                 state.value = "empty";
                 return;
@@ -53,7 +66,7 @@ export function useManifest() {
         document.head.appendChild(script);
     });
 
-    return { state, screens, error };
+    return { state, screens, config, error };
 }
 
 function formatZodError(err: { issues: ReadonlyArray<{ path: ReadonlyArray<PropertyKey>; message: string }> }): string {
