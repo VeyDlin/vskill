@@ -4,7 +4,7 @@
 
 Design-focused skills for [Claude Code](https://claude.com/claude-code). Skills that let Claude **make** a UI, **build it** out of a canonical Vue 3 + Nuxt UI stack, and **see** the result it produced — multimodal feedback (screenshots, DOM, console) via the `chrome-devtools` MCP.
 
-One plugin. 18 skills. All design.
+One plugin. 19 skills — design-focused, plus a meta-skill for authoring specialist subagents.
 
 ## Quick Start
 
@@ -62,6 +62,14 @@ Higher-level skills that drive the recipes, review UI visually, or extract/audit
 | `ux-compare` | Compare UX patterns across multiple reference apps |
 | `responsiveness-check` | Resize through breakpoints, screenshot each, detect layout breaks |
 | `onboarding-ux` | Audit onboarding gaps and generate in-app guidance (`UEmptyState`, `WelcomeBanner`, checklist store, dismissible hints) |
+
+### Authoring (1 skill)
+
+Meta-skill that produces a `.claude/agents/<name>.md` specialist subagent file. Not design-specific — lives in this plugin so it ships alongside the rest of the tooling.
+
+| Skill | What it does |
+|-------|-------------|
+| `writing-specialist-agent` | Scaffold a project-local specialist subagent (review, audit, debug, security, performance, architect roles) — calibrated persona, ordered methodology, anti-sycophancy guards, severity-tagged output, tool allowlist tuned to the archetype |
 
 ## Priority contract
 

@@ -17,7 +17,7 @@ Design-focused skills for Claude Code CLI. Every skill produces visible output (
 ```
 claude-skills/
 ├── plugins/
-│   └── vskill/                             # 1 plugin, 18 skills — Vue 3 + Nuxt UI design stack
+│   └── vskill/                             # 1 plugin, 19 skills — Vue 3 + Nuxt UI design stack + agent authoring
 │       ├── .claude-plugin/plugin.json
 │       └── skills/
 │           ├── init-frontend-project/      # Entry point: dispatches sketch briefs → screen-sketch, feature briefs → design-prototype; otherwise scaffolds Vue 3 + Nuxt UI project; ships CLAUDE.md as an asset
@@ -37,7 +37,8 @@ claude-skills/
 │           ├── ux-extract/                 # Extract a reusable pattern library from a reference app
 │           ├── ux-compare/                 # Compare pattern libraries
 │           ├── responsiveness-check/       # Breakpoint sweep with screenshots
-│           └── onboarding-ux/              # Audit onboarding gaps + generate in-app guidance
+│           ├── onboarding-ux/              # Audit onboarding gaps + generate in-app guidance
+│           └── writing-specialist-agent/   # Author a project-local specialist subagent (.claude/agents/) with calibrated persona, scope, and anti-sycophancy guards
 ├── .claude-plugin/                         # Marketplace config
 │   └── marketplace.json
 ├── CLAUDE.md                               # This file
@@ -53,6 +54,7 @@ claude-skills/
 - **Reference** (`stack-reference`) — canonical Vue 3 + Nuxt UI stack definition (packages, folder layout, API/store/composable patterns, naming, tooling, VS Code workspace). Not shipped as a file in the project root; consulted on demand so stack updates roll out through the plugin without touching cloned projects.
 - **Recipes** (`add-api-endpoint`, `add-store`, `add-composable`, `add-component`, `add-form`, `add-page`, `debug-common-errors`) — each produces a specific file type. They cross-reference each other but never batch multiple produce-types into one step.
 - **Design** (`screen-sketch`, `design-prototype`, `design-review`, `design-system`, `ux-audit`, `ux-extract`, `ux-compare`, `responsiveness-check`, `onboarding-ux`) — higher-level skills. `screen-sketch` and `design-prototype` are the two orchestrators reached via the dispatcher: `screen-sketch` produces static HTML artboards (no build, CDN-only stack), `design-prototype` builds a real Vue app and chains the recipes. The remaining design skills are directly invokable for review/audit/extraction work on an existing app.
+- **Authoring** (`writing-specialist-agent`) — meta-skill for scaffolding `.claude/agents/<name>.md` specialist subagents (review, audit, debug, security, performance roles) with calibrated persona, methodology, anti-sycophancy guards, and tool allowlists. Not design-specific; lives here so it ships alongside the rest of Kyle's plugin tooling.
 
 ### Dispatch pattern
 
@@ -181,7 +183,7 @@ Only for version-specific issues. Small typos or obvious mistakes should just be
 
 Kept from upstream: a UX-focused subset of the original `frontend` and `dev-tools` skills (visual review, UX audit, pattern extraction/comparison, responsive sweep, design-system extraction, onboarding UX). Those skills have been merged into the single `vskill` plugin and patched so their defaults match the Vue 3 + Nuxt UI stack (no Tailwind-specific examples, no React Router references, project docs outrank the skill).
 
-Added on top: `init-frontend-project` (scaffolds the canonical stack and ships `CLAUDE.md` as an asset), `stack-reference` (canonical stack definition consulted on demand instead of being copied into every project), seven recipe skills (`add-api-endpoint`, `add-store`, `add-composable`, `add-component`, `add-form`, `add-page`, `debug-common-errors`), and `design-prototype` (the autonomous loop that chains all of the above).
+Added on top: `init-frontend-project` (scaffolds the canonical stack and ships `CLAUDE.md` as an asset), `stack-reference` (canonical stack definition consulted on demand instead of being copied into every project), seven recipe skills (`add-api-endpoint`, `add-store`, `add-composable`, `add-component`, `add-form`, `add-page`, `debug-common-errors`), `design-prototype` (the autonomous loop that chains all of the above), and `writing-specialist-agent` (meta-skill for authoring `.claude/agents/` specialist subagents — not design-specific, but ships alongside the rest of Kyle's plugin tooling).
 
 Removed from upstream: everything else (cloudflare, integrations, writing, shopify, wordpress, social-media, web-design, design-assets, the non-UX dev-tools skills — project-health, brains-trust, git-workflow, deep-research, roadmap, vitest, etc.), plus upstream-specific publishing infrastructure (`tools/statusline-npm/`, `publish-contextbricks.yml`) and author-private artifacts. The original `design-loop` skill was also removed — its React/Tailwind assumptions conflicted with the Vue 3 stack; `design-prototype` replaces it.
 
